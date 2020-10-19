@@ -1,0 +1,14 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Yardline\\": "classes"
+        }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.2",
+        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "wp-coding-standards/wpcs": "*" 
+      },
+    "require": {
+    }
+}

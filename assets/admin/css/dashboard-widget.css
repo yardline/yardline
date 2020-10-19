@@ -1,0 +1,22 @@
+.yardline-stat-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.yardline-stat {
+    background-color: #f1f1f1;
+    width: 40%;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+}
+.stat {
+    font-size: 45px;
+    display: block;
+}
+.stat-up {
+    color: green;
+}
+.stat-down {
+    color: red;
+}
