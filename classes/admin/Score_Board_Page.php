@@ -19,12 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Show a welcome screen which will help users find articles and extensions that will suit their needs.
+ * Show the score board screen.
  *
  * Class Page
  * @package Yardline\Admin
  */
-class Welcome_Page extends Admin_Page {
+class Score_Board_Page extends Admin_Page {
 	// UNUSED FUNCTIONS
 	public function help() {
 	}
@@ -63,7 +63,7 @@ class Welcome_Page extends Admin_Page {
 	 * @return string
 	 */
 	public function get_name() {
-		return apply_filters( 'yardline/admin/welcome/name', 'Yardline' );
+		return apply_filters( 'yardline/admin/scoreboard/name', 'Yardline' );
 	}
 
 	/**
@@ -116,8 +116,8 @@ class Welcome_Page extends Admin_Page {
 
 		$sub_page = add_submenu_page(
 			'yardline',
-			_x( 'Welcome', 'page_title', 'yardline' ),
-			_x( 'Welcome', 'page_title', 'yardline' ),
+			_x( 'Score Board', 'page_title', 'yardline' ),
+			_x( 'Score Board', 'page_title', 'yardline' ),
 			'view_contacts',
 			'yardline',
 			array( $this, 'page' )
@@ -177,7 +177,7 @@ class Welcome_Page extends Admin_Page {
 	public function view() {
 		?>
 
-        <div id="welcome-page" class="welcome-page">
+        <div id="score-board-page" class="score-board-page">
             <div id="poststuff">
                 <div class="welcome-header">
                     <h1><?php echo sprintf( __( 'Welcome to %s', 'yardline' ), yardline_logo( 'black', 300, false ) ); ?></h1>
@@ -234,7 +234,7 @@ class Welcome_Page extends Admin_Page {
 										html()->e( 'a', [
 											'href'   => add_query_arg( [
 												'utm_source'   => get_bloginfo(),
-												'utm_medium'   => 'welcome-page',
+												'utm_medium'   => 'score-board-page',
 												'utm_campaign' => 'admin-links',
 												'utm_content'  => strtolower( $link['display'] ),
 											], $link['url'] ),
@@ -261,14 +261,14 @@ class Welcome_Page extends Admin_Page {
 						echo html()->e( 'a', [
 							'href'   => add_query_arg( [
 								'utm_source'   => get_bloginfo(),
-								'utm_medium'   => 'welcome-page',
+								'utm_medium'   => 'score-board-page',
 								'utm_campaign' => 'quickstart',
 								'utm_content'  => 'image',
 							], 'https://academy.groundhogg.io/course/groundhogg-quickstart/' )
 							,
 							'target' => '_blank'
 						], html()->e( 'img', [
-							'src' => YARDLINE_ASSETS_URL . 'images/welcome/quickstart-course-welcome-screen.png',
+							'src' => YARDLINE_ASSETS_URL . 'images/score-board/quickstart-course-welcome-screen.png',
 						] ) );
 
 						echo html()->e( 'a', [
@@ -276,7 +276,7 @@ class Welcome_Page extends Admin_Page {
 							'class'  => 'button big-button',
 							'href'   => add_query_arg( [
 								'utm_source'   => get_bloginfo(),
-								'utm_medium'   => 'welcome-page',
+								'utm_medium'   => 'score-board-page',
 								'utm_campaign' => 'quickstart',
 								'utm_content'  => 'button',
 							], 'https://academy.groundhogg.io/course/groundhogg-quickstart/' ),
@@ -332,7 +332,7 @@ class Welcome_Page extends Admin_Page {
 						echo html()->modal_link( [
 							'title'              => __( 'Create your first funnel!', 'groundhogg' ),
 							'text'               => html()->e( 'img', [
-								'src' => YARDLINE_ASSETS_URL . 'images/welcome/create-your-first-funnel-with-yardline.png'
+								'src' => YARDLINE_ASSETS_URL . 'images/score-board/create-your-first-funnel-with-yardline.png'
 							] ),
 							'footer_button_text' => __( 'Close' ),
 							'source'             => 'create-your-first-funnel-video',
@@ -369,7 +369,7 @@ class Welcome_Page extends Admin_Page {
 						echo html()->modal_link( [
 							'title'              => __( 'Configure WP-Cron', 'groundhogg' ),
 							'text'               => html()->e( 'img', [
-								'src' => YARDLINE_ASSETS_URL . 'images/welcome/correctly-configure-wp-cron-for-groundhogg.png'
+								'src' => YARDLINE_ASSETS_URL . 'images/score-board/correctly-configure-wp-cron-for-groundhogg.png'
 							] ),
 							'footer_button_text' => __( 'Close' ),
 							'source'             => 'configure-wp-cron',

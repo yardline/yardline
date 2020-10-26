@@ -4,7 +4,7 @@ namespace Yardline\Admin;
 
 
 use Yardline\Admin\Settings_Page;
-use Yardline\Admin\Welcome_Page;
+use Yardline\Admin\Score_Board_Page;
 use function Yardline\has_premium_features;
 use function Yardline\is_option_enabled;
 use function Yardline\is_pro_features_active;
@@ -25,7 +25,7 @@ class Admin_Menu {
 	 */
 	protected $pages = [];
 
-   // public $welcome;
+
 	/**
 	 * Manager constructor.
 	 */
@@ -37,7 +37,7 @@ class Admin_Menu {
 	 * Setup the base DBs for the plugin
 	 */
 	public function init_admin() {
-		$this->welcome  = new Welcome_Page();
+		$this->score_board  = new Score_Board_Page();
 	//	$this->contacts = new Contacts_Page();
 	//	$this->tags     = new Tags_Page();
 

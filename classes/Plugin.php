@@ -1,5 +1,6 @@
 <?php
 namespace Yardline;
+use Yardline\Analytics;
 use Yardline\DB\Manager as DB_Manager;
 use Yardline\Settings;
 use Yardline\Dashboard_Widget;
@@ -52,10 +53,14 @@ class Plugin {
     public $admin;
 
      /**
+     * @var Analytics;
+     */
+    public $analytics;
+
+     /**
      * @var Utils
      */
     public $utils;
-
 
     /**
      * @var Main_Installer
@@ -64,8 +69,6 @@ class Plugin {
 
     /**
      * Settings.
-     *
-     * Holds the plugin settings.
      *
      * @since 1.0.0
      * @access public
@@ -127,11 +130,11 @@ class Plugin {
      */
     private function init_components() {
         //$this->settings     = new Settings();
-
-        $this->dbs          = new DB_Manager();
+        $this->analytics = new Analytics();
+        $this->dbs = new DB_Manager();
 
        
-        $this->utils        = new Utils();
+        $this->utils = new Utils();
 
         if ( is_admin() ) {
             $this->admin   = new Admin_Menu();
