@@ -4,7 +4,7 @@ use Yardline\Analytics;
 use Yardline\DB\Manager as DB_Manager;
 use Yardline\Settings;
 use Yardline\Dashboard_Widget;
-use Yardline\utils\Main_Installer;
+use Yardline\Main_Installer;
 use Yardline\Admin\Admin_Menu;
 use Yardline\Utils\Utils;
 
@@ -140,7 +140,7 @@ class Plugin {
             $this->admin   = new Admin_Menu();
             $this->dashboard = new Dashboard_Widget();
         }
-        // Goes last to ensure everything is installed before running...
+        
         $this->installer    = new Main_Installer();
     }
 
@@ -149,8 +149,7 @@ class Plugin {
      */
     private function includes() {
         require  YARDLINE_PATH . '/includes/functions.php';
-       // require  GROUNDHOGG_PATH . '/includes/filters.php';
-        //require  GROUNDHOGG_PATH . '/includes/tools.php';
+
     }
 
 

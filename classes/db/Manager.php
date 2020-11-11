@@ -32,9 +32,6 @@ class Manager {
 		add_action( 'activate_plugin', [ $this, 'listen_for_addons' ], 1 );
 	}
 
-	public function listen_for_addons() {
-		do_action( 'yardline/db/manager/init', $this );
-	}
 
 	/**
 	 * @return bool
@@ -47,35 +44,12 @@ class Manager {
 	 * Setup the base DBs for the plugin
 	 */
 	public function init_dbs() {
-		//$this->activity          = new Activity();
-		//$this->activitymeta      = new Activity_Meta();
-		//$this->broadcasts        = new Broadcasts();
-		//$this->broadcastmeta     = new Broadcast_Meta();
-		//$this->contactmeta       = new Contact_Meta();
-		//$this->contacts          = new Contacts();
-		//$this->emailmeta         = new Email_Meta();
-		//$this->emails            = new Emails();
-		//$this->events            = new Events();
-		//$this->funnels           = new Funnels();
-		//$this->funnelmeta        = new Funnel_Meta();
-		//$this->stepmeta          = new Step_Meta();
-		//$this->steps             = new Steps();
-		//$this->tags              = new Tags();
-		//$this->tag_relationships = new Tag_Relationships();
-		//$this->submissions       = new Submissions();
-		//$this->submissionmeta    = new Submission_Meta();
-		//$this->form_impressions  = new Form_Impressions();
-		//$this->contactnotes      = new Contact_Notes();
-		//$this->permissions_keys  = new Permissions_Keys();
-
-		//new queue table
-		//$this->event_queue = new Event_Queue();
-
-		/**
-		 * Runs when the DB Manager is setup and all the standard DBs have been initialized.
-		 */
-		//$this->listen_for_addons();
-
+		
+		$this->site_stats = new Site_Stats();
+		$this->page_stats = new Page_Stats();
+		$this->page_paths = new Page_Paths();
+		$this->referer_paths = new Referer_Paths();
+		
 		$this->initialized = true;
 	}
 

@@ -1,11 +1,10 @@
 <?php
 namespace Yardline\DB;
 
-
-// Exit if accessed directly
 use function yardline\get_array_var;
 use function yardline\isset_not_empty;
 
+// Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -13,15 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * DB Parent Class
  *
- * This class is the foundation for all DB activities in Ground. With the exception of several new functions
- * such as generate_where, generate_search and search, this class was mostly borrowed from EDD with several mods and the original copyright belongs to Pippin...
- *
- * @since       File available since Release 0.1
- * @subpackage  Includes/DB
- * @author      Adrian Tobey <info@groundhogg.io>
- * @copyright   Copyright (c) 2018, Groundhogg Inc.
- * @license     https://opensource.org/licenses/GPL-3.0 GNU Public License v3
- * @package     Includes
  */
 abstract class DB {
 
@@ -29,34 +19,35 @@ abstract class DB {
 	 * @var array Store results about a query temporarily.
 	 */
 	protected static $cache = [];
+
 	/**
 	 * The name of our database table
 	 *
 	 * @access  public
-	 * @since   2.1
 	 */
 	public $db_suffix;
+
 	/**
 	 * The name of our database table
 	 *
 	 * @access  public
-	 * @since   2.1
 	 */
 	public $table_name;
+
 	/**
 	 * The version of our database table
 	 *
 	 * @access  public
-	 * @since   2.1
 	 */
 	public $version;
+
 	/**
 	 * The name of the primary column
 	 *
 	 * @access  public
-	 * @since   2.1
 	 */
 	public $primary_key;
+
 	/**
 	 * @var string
 	 */
@@ -66,7 +57,6 @@ abstract class DB {
 	 * Get things started
 	 *
 	 * @access  public
-	 * @since   2.1
 	 */
 	public function __construct() {
 
@@ -189,11 +179,10 @@ abstract class DB {
 	 * Register the table with $wpdb so the metadata api can find it
 	 *
 	 * @access  public
-	 * @since   2.6
 	 */
 	public function register_table() {
 		global $wpdb;
-		$wpdb->__set( 'gh_' . $this->get_object_type() . 's', $this->get_table_name() );
+		$wpdb->__set( 'yl_' . $this->get_object_type() . 's', $this->get_table_name() );
 		$wpdb->tables[] = $this->get_db_suffix();
 	}
 
@@ -345,7 +334,6 @@ abstract class DB {
 	 * Retrieve a row by a specific column / value
 	 *
 	 * @access  public
-	 * @since   2.1
 	 * @return  object
 	 */
 	public function get_by( $column, $row_id ) {
@@ -359,7 +347,6 @@ abstract class DB {
 	 * Retrieve a specific column's value by the primary key
 	 *
 	 * @access  public
-	 * @since   2.1
 	 * @return  string
 	 */
 	public function get_column( $column, $row_id ) {
@@ -370,10 +357,9 @@ abstract class DB {
 	}
 
 	/**
-	 * Add a email
+	 * Add
 	 *
 	 * @access  public
-	 * @since   2.1
 	 */
 	public function add( $data = array() ) {
 
@@ -389,7 +375,6 @@ abstract class DB {
 	 * Default column values
 	 *
 	 * @access  public
-	 * @since   2.1
 	 * @return  array
 	 */
 	public function get_column_defaults() {
@@ -400,7 +385,6 @@ abstract class DB {
 	 * Insert a new row
 	 *
 	 * @access  public
-	 * @since   2.1
 	 * @return  int
 	 */
 	public function insert( $data ) {
@@ -439,10 +423,9 @@ abstract class DB {
 	}
 
 	/**
-	 * Sets the last_changed cache key for contacts.
+	 * Sets the last_changed cache key.
 	 *
 	 * @access public
-	 * @since  2.8
 	 */
 	public function set_last_changed() {
 		wp_cache_set( 'last_changed', microtime(), $this->get_cache_group() );
@@ -454,14 +437,13 @@ abstract class DB {
 	 * @return string
 	 */
 	public function get_cache_group() {
-		return 'gh_' . $this->get_object_type() . 's';
+		return 'yl_' . $this->get_object_type() . 's';
 	}
 
 	/**
 	 * Update a row
 	 *
 	 * @access  public
-	 * @since   2.1
 	 * @return  bool
 	 */
 	public function update( $row_id = 0, $data = [], $where = [] ) {
@@ -541,7 +523,7 @@ abstract class DB {
 	}
 
 	/**
-	 * Helper function to bulk delete events in the event associated things happen.
+	 * Helper function to bulk delete.
 	 *
 	 * @param array $args
 	 *
@@ -570,7 +552,6 @@ abstract class DB {
 	 * Delete a row identified by the primary key
 	 *
 	 * @access  public
-	 * @since   2.1
 	 * @return  bool
 	 */
 	public function delete( $row_id = 0 ) {
@@ -598,10 +579,9 @@ abstract class DB {
 	}
 
 	/**
-	 * Checks if a broadcast exists
+	 * Checks if an entry exists
 	 *
 	 * @access  public
-	 * @since   2.1
 	 */
 	public function exists( $value = 0, $field = false ) {
 
@@ -762,10 +742,9 @@ abstract class DB {
 	}
 
 	/**
-	 * Retrieves the value of the last_changed cache key for contacts.
+	 * Retrieves the value of the last_changed cache key.
 	 *
 	 * @access public
-	 * @since  2.8
 	 */
 	public function get_last_changed() {
 		if ( function_exists( 'wp_cache_get_last_changed' ) ) {
@@ -1013,7 +992,6 @@ abstract class DB {
 	 * Retrieve a specific column's value by the the specified column / value
 	 *
 	 * @access  public
-	 * @since   2.1
 	 * @return  string
 	 */
 	public function get_column_by( $column, $column_where, $column_value ) {
@@ -1081,7 +1059,6 @@ abstract class DB {
 	/**
 	 * Check if the table was ever installed
 	 *
-	 * @since  2.4
 	 * @return bool Returns if the contacts table was installed and upgrade routine run
 	 */
 	public function installed() {
@@ -1091,7 +1068,6 @@ abstract class DB {
 	/**
 	 * Check if the given table exists
 	 *
-	 * @since  2.4
 	 *
 	 * @param string $table The table name
 	 *

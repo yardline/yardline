@@ -98,13 +98,13 @@ function html() {
  * @return string|bool
  */
 function yardline_logo( $color = 'black', $width = 300, $echo = true ) {
-	return 'yardline_logo in functions file';	switch ( $color ) {
+	switch ( $color ) {
 		default:
 		case 'black':
-			$link = 'logo-black-1000x182.png';
+			$link = 'yardline-logo.png';
 			break;
 		case 'white':
-			$link = 'logo-white-1000x182.png';
+			$link = 'yardline-logo.png';
 			break;
 	}
 
@@ -212,3 +212,20 @@ function array_to_atts( $atts ) {
 function enqueue_yardline_modal() {
 	//return Modal::instance();
 }
+
+function dev_log($message)
+{
+	$dev_log = dirname(__FILE__) . '/dev_log.txt';
+	if (is_array($message)) {
+		$message = print_r($message, true);
+	}
+	if (file_exists($dev_log)) {
+		$file = fopen($dev_log, 'a');
+		fwrite($file, $message . "\n");
+	} else {
+		$file = fopen($dev_log, 'w');
+		fwrite($file, $message . "\n");
+	}
+	fclose($file);
+}
+

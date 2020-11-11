@@ -13,10 +13,66 @@
 .stat {
     font-size: 45px;
     display: block;
+    text-align: center;
+}
+.compare {
+    font-size: 14px;
 }
 .stat-up {
     color: green;
 }
 .stat-down {
-    color: red;
+    color: #ec4444;
+    color: #ff5252;
+    color: #c30000;
+}
+.yl-secondary-bg {
+    background-color: #0084c1;
+}
+
+.yl-primary-bg {
+    background-color: #ec4444;
+}
+.yl-dark-bg {
+    background-color: #414141;
+    //background-color: #21343e;
+    color: #fff;
+}
+.yl-light-bg {
+    background-color: #d4d4d2;
+    color: #9c9c9c;
+}
+.yl-white-bg {
+    background-color: #ffffff;
+}
+.yl-blue {
+    color: #1c3667;
+}
+
+.yl-radius {
+    border-radius: 5px;
+}
+
+.score-board-page {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stat-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+.stat h3 {
+    font-size: 18px;
+    color: #fff;
+    margin-top: 0;
+}
+
+.scoreboard-row {
+    display: grid;
+    grid-template-columns: calc(50% - 15px) calc(50% - 15px);
+    gap: 30px;
+    margin: 30px 0;
+    max-height: 400px;
 }

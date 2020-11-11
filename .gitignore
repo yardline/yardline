@@ -1,3 +1,5 @@
 vendor/*
 node_modules/
 includes/dev_log.txt
+.DS_Store
+assets/.DS_Store

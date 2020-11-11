@@ -148,6 +148,8 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var anal
   \******************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, top-level-this-exports */
+/*! CommonJS bailout: this is used directly at 1:455-459 */
+/*! CommonJS bailout: module.exports is used directly at 1:68-82 */
 /***/ (function(module) {
 
 eval("!function(t,n){ true?module.exports=function(t,n,e,i,o){for(n=n.split?n.split(\".\"):n,i=0;i<n.length;i++)t=t?t[n[i]]:o;return t===o?e:t}:0}(this);\n//# sourceMappingURL=dlv.umd.js.map\n\n\n//# sourceURL=webpack://yardline/./node_modules/dlv/dist/dlv.umd.js?");

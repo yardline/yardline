@@ -155,7 +155,10 @@ abstract class Admin_Page extends Supports_Errors {
 	/**
 	 * Enqueue any scripts
 	 */
-	abstract public function scripts();
+	public function scripts(){
+		wp_enqueue_script( 'yl_admin_script', YARDLINE_ASSETS_URL . 'js/admin.js' , array(), YARDLINE_VERSION, true );
+	}
+	
 
 	/**
 	 * Register the page
