@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since       File available since Release 1.0
  *
  */
-class Referer_Paths extends DB {
+class Referer_URLs extends DB {
 
 	/**
 	 * Get the DB suffix
@@ -24,7 +24,7 @@ class Referer_Paths extends DB {
 	 * @return string
 	 */
 	public function get_db_suffix() {
-		return 'yl_referer_paths';
+		return 'yl_referer_urls';
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Referer_Paths extends DB {
 	 * @return string
 	 */
 	public function get_object_type() {
-		return 'referer_path';
+		return 'referer_url';
 	}
 
 	
@@ -63,7 +63,7 @@ class Referer_Paths extends DB {
 	public function get_columns() {
 		return array(
             'id'            => '%d',
-            'path'          => '%s'
+            'url'          => '%s'
 		);
 	}
 
@@ -75,7 +75,7 @@ class Referer_Paths extends DB {
 	public function get_column_defaults() {
 		return array(
             'id'        => 0,
-            'path'      => '',
+            'url'      => '',
 		);
 	}
 
@@ -111,7 +111,7 @@ class Referer_Paths extends DB {
 
 		$sql = "CREATE TABLE " . $this->table_name . " (
             id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            path VARCHAR(255) NOT NULL UNIQUE,
+            url VARCHAR(255) NOT NULL UNIQUE,
             PRIMARY KEY (id)
 		) {$this->get_charset_collate()};";
 

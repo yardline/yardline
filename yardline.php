@@ -24,7 +24,6 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 define( 'YARDLINE_VERSION', '0.1' );
-//define( 'WPSIMPLESTATS_PREVIOUS_STABLE_VERSION', '2.1.13.4' );
 
 define( 'YARDLINE__FILE__', __FILE__ );
 define( 'YARDLINE_PLUGIN_BASE', plugin_basename( YARDLINE__FILE__ ) );
@@ -34,6 +33,9 @@ define( 'YARDLINE_URL', plugins_url( '/', YARDLINE__FILE__ ) );
 
 define( 'YARDLINE_ASSETS_PATH', YARDLINE_PATH . 'assets/' );
 define( 'YARDLINE_ASSETS_URL', YARDLINE_URL . 'assets/' );
+if ( $upload_dir = wp_get_upload_dir() ) {
+    define('YARDLINE_HIT_FILE', $upload_dir['basedir'] .'/yardlinehits.php');
+}
 
 add_action( 'plugins_loaded', 'yardline_load_plugin_textdomain' );
 
@@ -46,7 +48,6 @@ if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
 } else {
     require YARDLINE_PATH . 'bootstrap.php';
 }
-
 
 
 /**

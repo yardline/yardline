@@ -22,6 +22,12 @@ class Analytics {
     public function enqueue_frontend() {
         
         wp_enqueue_script( self::SCRIPT_NAME, YARDLINE_ASSETS_URL . 'js/frontend.js', array(), YARDLINE_VERSION, true );
+        wp_localize_script( self::SCRIPT_NAME, 'yardlineObject', [
+            'restURL' => get_rest_url(),
+            'wpnonce' => wp_create_nonce( 'wp_rest' ),
+            'honorDNT' => true,
+            'useCookie' =>true
+        ] );
     }
 }
 	

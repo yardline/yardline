@@ -5,6 +5,7 @@ namespace Yardline\DB;
 // Exit if accessed directly
 use function Yardline\get_array_var;
 use function Yardline\get_db;
+use function Yardline\dev_log;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -63,7 +64,10 @@ class Page_Paths extends DB {
 	public function get_columns() {
 		return array(
             'id'            => '%d',
-            'path'          => '%s'
+			'path'          => '%s',
+			'type'			=> '%s',
+			'post_id'		=> '%d',
+			'tax_id'		=> '%d',
 		);
 	}
 
@@ -74,8 +78,11 @@ class Page_Paths extends DB {
 	 */
 	public function get_column_defaults() {
 		return array(
-            'id'            => 0,
-            'path'      => '',    
+            'id'		=> 0,
+			'path'		=> '',
+			'type'		=> 'post',
+			'post_id'	=> 0,
+			'tax_id'	=> 0    
 		);
 	}
 
@@ -91,11 +98,22 @@ class Page_Paths extends DB {
 			$this->get_column_defaults()
 		);
 
-		if ( empty( $args['date'] ) ) {
+		if ( empty( $args['path'] ) ) {
 			return false;
 		}
 
 		return $this->insert( $args );
+	}
+
+	
+
+	public function get_by_urls( $urls ) {
+		global $wpdb;
+		$placeholders  = rtrim( str_repeat( '%s,', count( $urls ) ), ',' );
+		$sql = $wpdb->prepare( "SELECT id, path FROM {$wpdb->prefix}yl_page_paths r WHERE r.path IN({$placeholders})", $urls );
+		return $wpdb->get_results( $sql );
+		
+		
 	}
 
 	/**
@@ -111,7 +129,10 @@ class Page_Paths extends DB {
 
 		$sql = "CREATE TABLE " . $this->table_name . " (
             id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            path VARCHAR(255) NOT NULL UNIQUE,
+			path VARCHAR(255) NOT NULL UNIQUE,
+			type VARCHAR(255) NOT NULL,
+			post_id MEDIUMINT,
+			tax_id MEDIUMINT,
             PRIMARY KEY (id)
 		) {$this->get_charset_collate()};";
 

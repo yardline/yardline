@@ -48,7 +48,7 @@ class Manager {
 		$this->site_stats = new Site_Stats();
 		$this->page_stats = new Page_Stats();
 		$this->page_paths = new Page_Paths();
-		$this->referer_paths = new Referer_Paths();
+		$this->referer_urls = new Referer_URLs();
 		
 		$this->initialized = true;
 	}

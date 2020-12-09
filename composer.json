@@ -5,10 +5,8 @@
         }
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.2",
-        "dealerdirect/phpcodesniffer-composer-installer": "*",
-        "wp-coding-standards/wpcs": "*" 
-      },
+    },
     "require": {
+        "matomo/referrer-spam-blacklist": "^4.0"
     }
 }

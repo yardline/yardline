@@ -7,6 +7,7 @@ use Yardline\Dashboard_Widget;
 use Yardline\Main_Installer;
 use Yardline\Admin\Admin_Menu;
 use Yardline\Utils\Utils;
+use Yardline\Api\Api_Loader;
 
 if ( ! defined( 'ABSPATH' ) ) {exit;}
 
@@ -56,6 +57,16 @@ class Plugin {
      * @var Analytics;
      */
     public $analytics;
+
+     /**
+     * @var Api_Loader;
+     */
+    public $api;
+
+     /**
+     * @var Hit_Collector;
+     */
+    public $hit_collector;
 
      /**
      * @var Utils
@@ -131,10 +142,11 @@ class Plugin {
     private function init_components() {
         //$this->settings     = new Settings();
         $this->analytics = new Analytics();
+        $this->api = new Api_Loader();
         $this->dbs = new DB_Manager();
-
-       
         $this->utils = new Utils();
+        $this->hit_collector = new Hit_Collector();
+        $this->hit_collector->init();
 
         if ( is_admin() ) {
             $this->admin   = new Admin_Menu();

@@ -3,7 +3,7 @@ namespace Yardline\DB;
 
 use function yardline\get_array_var;
 use function yardline\isset_not_empty;
-
+use function Yardline\dev_log;
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -61,7 +61,6 @@ abstract class DB {
 	public function __construct() {
 
 		$this->db_suffix = $this->get_db_suffix();
-
 		$this->render_table_name();
 
 		$this->primary_key = $this->get_primary_key();
@@ -339,7 +338,6 @@ abstract class DB {
 	public function get_by( $column, $row_id ) {
 		global $wpdb;
 		$column = esc_sql( $column );
-
 		return apply_filters( 'yardline/db/get/' . $this->get_object_type(), $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE $column = %s LIMIT 1;", $row_id ) ) );
 	}
 

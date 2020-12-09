@@ -46,7 +46,6 @@ class Site_Stats extends DB {
 	}
 
 	/**
-	 * Get the object type we're inserting/updateing/deleting.
 	 *
 	 * @return string
 	 */
@@ -65,7 +64,6 @@ class Site_Stats extends DB {
 	 * Get columns and formats
 	 *
 	 * @access  public
-	 * @since   2.1
 	 */
 	public function get_columns() {
 		return array(
@@ -81,22 +79,38 @@ class Site_Stats extends DB {
 	 * Get default column values
 	 *
 	 * @access  public
-	 * @since   2.1
 	 */
 	public function get_column_defaults() {
 		return array(
 			
-			'date'          => date(),
+			'date'          => date( 'Y-m-d'),
             'visitors'      => 0,
             'pageviews'     => 0,
 		);
 	}
 
 	/**
-	 * Add a activity
+	 * Add on duplicate
+	 * 
+	 * increments the value if already present
 	 *
 	 * @access  public
-	 * @since   2.1
+	 */
+	public function add_on_duplicate( $data = array() ) {
+		global $wpdb;
+		$data = wp_parse_args( $data, $this->get_column_defaults() );
+		$sql = $wpdb->prepare( 
+			"INSERT INTO {$wpdb->prefix}yl_site_stats(date, visitors, pageviews) 
+			VALUES(%s, %d, %d) 
+			ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", 
+			array( $data['date'], $data['visitors'], $data['pageviews'] ) );
+		$wpdb->query( $sql );
+	}
+
+	/**
+	 * Add a stat
+	 *
+	 * @access  public
 	 */
 	public function add( $data = array() ) {
 
@@ -104,6 +118,7 @@ class Site_Stats extends DB {
 			$data,
 			$this->get_column_defaults()
 		);
+
 
 		if ( empty( $args['date'] ) ) {
 			return false;
