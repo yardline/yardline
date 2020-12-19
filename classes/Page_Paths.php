@@ -37,7 +37,7 @@ class Page_Paths {
         }
        $url = get_site_url() . $path;
         if ( rtrim( $url, "/" ) == get_home_url() ) {
-            dev_log('home');
+           // dev_log('home');
             return 'home';
         }
 

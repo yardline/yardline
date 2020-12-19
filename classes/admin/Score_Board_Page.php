@@ -26,6 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Score_Board_Page extends Admin_Page {
 	// UNUSED FUNCTIONS
+
+	const SCRIPT_NAME = 'yl_admin_script';
 	public function help() {
 	}
 
@@ -173,11 +175,12 @@ class Score_Board_Page extends Admin_Page {
 	public function view() {
 		?>
 
-        <div id="score-board-page" class="score-board-page">
-            <div id="poststuff">
-                <div class="welcome-header">
-                    <?php echo yardline_logo( 'black', 300, false ) ; ?>
-                </div>
+        <div class="yl-admin">
+			
+            <div id="score-board-page" class="score-board-page">
+			<div class="welcome-header">
+                <?php echo yardline_logo( 'white', 300, false ) ; ?>
+            </div>
 				<?php $this->notices(); ?>
                 <hr class="wp-header-end">
                 <div class="col">
@@ -186,6 +189,16 @@ class Score_Board_Page extends Admin_Page {
             </div>
         </div>
 		<?php
+	}
+
+	public function scripts(){
+		wp_enqueue_script( self::SCRIPT_NAME, YARDLINE_ASSETS_URL . 'js/admin.js' , array(), YARDLINE_VERSION, true );
+		wp_localize_script( self::SCRIPT_NAME, 'yardlineAdmin', [
+            'restURL' => get_rest_url(),
+			//'wpnonce' => wp_create_nonce( 'yardline_admin' ),
+			'siteTitle' => get_bloginfo( 'name' )
+            
+        ] );
 	}
 
 }

@@ -104,7 +104,7 @@ function yardline_logo( $color = 'black', $width = 300, $echo = true ) {
 			$link = 'yardline-logo.png';
 			break;
 		case 'white':
-			$link = 'yardline-logo.png';
+			$link = 'yardline-logo-white.png';
 			break;
 	}
 

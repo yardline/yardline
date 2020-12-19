@@ -5,6 +5,7 @@ namespace Yardline\DB;
 // Exit if accessed directly
 use function Yardline\get_array_var;
 use function Yardline\get_db;
+use function Yardline\dev_log;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -105,6 +106,12 @@ class Site_Stats extends DB {
 			ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", 
 			array( $data['date'], $data['visitors'], $data['pageviews'] ) );
 		$wpdb->query( $sql );
+	}
+
+	public function get_for_date_range( $start_date, $end_date ) {
+		global $wpdb;
+		$sql = $wpdb->prepare( "SELECT date, visitors, pageviews FROM {$wpdb->prefix}yl_site_stats s WHERE s.date >= %s AND s.date <= %s", array( $start_date, $end_date ) );
+		return $wpdb->get_results( $sql );
 	}
 
 	/**

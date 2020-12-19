@@ -2,9 +2,9 @@
 namespace Yardline\Api\V1;
 
 use function Yardline\dev_log;
-// use Yardline\Site_Stat;
-use Yardline\Hit_Tracker;
 use Yardline\Site_Stats;
+use Yardline\Hit_Tracker;
+use Yardline\DB\Site_Stats as Site_Stats_DB;
 /**
  * Class WP_Statistics_Rest
  */
@@ -17,6 +17,7 @@ class API_V1 {
 	const _Argument = 'yardline_hit_rest';
 
 	public function __construct() {
+		dev_log('API Construct');
 		$this->register_routes();
 	}
 	/**
@@ -35,17 +36,18 @@ class API_V1 {
 	 * Add Endpoint Route
 	 */
 	public function register_routes() {
-
+		dev_log('register routes');
 		// Create Require Params
 		$params = array();
 		foreach ( self::require_params_hit() as $p ) {
-            $params[ $p ] = array( 'required' => true );
+			$params[ $p ] = array( 'required' => true );
 		}
 
 		// Get Hit
 		register_rest_route( self::route, '/hit', array(
 			'methods'             => \WP_REST_Server::READABLE,
 			'permission_callback' => function () {
+				dev_log('permission_callback');
 				return true;
 			},
 			'callback'            => array( $this, 'hit' ),
@@ -53,38 +55,34 @@ class API_V1 {
 				array( '_wpnonce' => array(
 					'required'          => true,
 					'validate_callback' => function ( $value ) {
-                        dev_log('yo');
-						return wp_verify_nonce( $value, 'wp_rest' );
+						dev_log('validate');
+						return wp_verify_nonce( $value, 'yardline_hit' );
 					}
 				) ), $params )
 		) );
 
-		// Test REST API WordPress is activate
-		register_rest_route( self::route, '/connection', [
-			'methods'  => \WP_REST_Server::READABLE,
-			'callback' => [ $this, 'connection' ]
-		 ] );
+		
 		 
-		 register_rest_route(
-			self::route,
-			'/stats',
-			[
-				'methods'             => 'GET',
-				'callback'            => [ $this, 'get_stats' ],
-				'args'                => [
-					'start_date' => [
-						'validate_callback' => [ $this, 'validate_date_param' ],
-					],
-					'end_date'   => [
-						'validate_callback' => [ $this, 'validate_date_param' ],
-					],
-				],
-				'permission_callback' => function () {
-					//return current_user_can( 'view_yardline' );
-					return true;
-				},
-			]
-		);
+		//  register_rest_route(
+		// 	self::route,
+		// 	'/stats',
+		// 	[
+		// 		'methods'             => 'GET',
+		// 		'callback'            => [ $this, 'get_stats' ],
+		// 		'args'                => [
+		// 			'start_date' => [
+		// 				'validate_callback' => [ $this, 'validate_date_param' ],
+		// 			],
+		// 			'end_date'   => [
+		// 				'validate_callback' => [ $this, 'validate_date_param' ],
+		// 			],
+		// 		],
+		// 		'permission_callback' => function () {
+		// 			//return current_user_can( 'view_yardline' );
+		// 			return true;
+		// 		},
+		// 	]
+		// );
 	}
 
 	/**
@@ -174,19 +172,20 @@ class API_V1 {
 	}
 
 	public function get_stats( \WP_REST_Request $request ) {
-        dev_log('API Stats hit fired');
-       // dev_log($request);
-       $params     = $request->get_query_params();
+		global $wpdb;
+		dev_log( 'API Stats hit');
+		$params     = $request->get_query_params();
 		$start_date = isset( $params['start_date'] ) ? $params['start_date'] : gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
-        $end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
-        
-        $results = [];
-        $results = 'Stats Results';
-		$site_stats = new Site_Stats();
+		$end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+		//$sql        = $wpdb->prepare( "SELECT date, visitors, pageviews FROM {$wpdb->prefix}koko_analytics_site_stats s WHERE s.date >= %s AND s.date <= %s", array( $start_date, $end_date ) );
+		//$result     = $wpdb->get_results( $sql );
+		$site_stats = new Site_Stats_DB();
 		return $site_stats->get_for_date_range( $start_date, $end_date );
-    }
-    
-    public function validate_date_param( $param, $one, $two ) {
+		
+		
+	}
+
+	public function validate_date_param( $param, $one, $two ) {
 		return strtotime( $param ) !== false;
 	}
 }

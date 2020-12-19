@@ -26,6 +26,9 @@
     color: #ff5252;
     color: #c30000;
 }
+.welcome-header {
+    background-color: #ec4444;
+}
 .yl-secondary-bg {
     background-color: #0084c1;
 }
@@ -51,6 +54,11 @@
 
 .yl-radius {
     border-radius: 5px;
+}
+
+.yl-score-board-card {
+    padding: 10px;
+    margin-top: 10px;
 }
 
 .score-board-page {

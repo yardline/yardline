@@ -11,6 +11,16 @@ const stat = {
         name:'Pageviews',
         number: 6230,
         percent: 1,
+    },
+    numberOfOrders: {
+        name: 'Number of Sales',
+        number: 28,
+        percent: -3
+    },
+    formSubmissions: {
+        name: 'Form Submissions',
+        number: 18,
+        percent: 8
     }
 };
 class Marquee extends React.Component {
@@ -21,6 +31,8 @@ class Marquee extends React.Component {
             <div className="stat-wrap">
                 <BigStat stat={stat.visitors}/>
                 <BigStat stat={stat.pageviews}/>
+                <BigStat stat={stat.numberOfOrders}/>
+                <BigStat stat={stat.formSubmissions}/>
             </div>
             </div>
         );

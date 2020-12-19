@@ -30,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Admin_Page extends Supports_Errors {
 
+	
 	protected $screen_id;
 
 	/**
@@ -156,7 +157,12 @@ abstract class Admin_Page extends Supports_Errors {
 	 * Enqueue any scripts
 	 */
 	public function scripts(){
-		wp_enqueue_script( 'yl_admin_script', YARDLINE_ASSETS_URL . 'js/admin.js' , array(), YARDLINE_VERSION, true );
+		wp_enqueue_script( self::SCRIPT_NAME, YARDLINE_ASSETS_URL . 'js/admin.js' , array(), YARDLINE_VERSION, true );
+		wp_localize_script( self::SCRIPT_NAME, 'yardlineAdmin', [
+            'restURL' => get_rest_url(),
+            // 'nonce' => wp_create_nonce( 'yardline_admin' ),
+            
+        ] );
 	}
 	
 

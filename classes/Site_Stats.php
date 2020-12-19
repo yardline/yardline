@@ -5,7 +5,12 @@ use function Yardline\dev_log;
 use Yardline\Abstracts\Base_Object;
 use Yardline\DB\Site_Stats as Site_Stats_DB;
 
-class Site_Stat extends Base_Object {
+class Site_Stats {
+	public $db;
+	
+	public function __construct() {
+		$this->db = new Site_Stats_DB();
+	}
 
     /**
 	 * Return the DB instance that is associated with items of this type.
@@ -21,8 +26,12 @@ class Site_Stat extends Base_Object {
 	}
 	
 	public function register_hit($pv, $uv) {
-		dev_log('register hit');
+		//dev_log('register hit');
 		//$this->get_db()->add();
+	}
+
+	public function get_for_date_range( $start_date, $end_date ) {
+		return $this->db->get_for_date_range( $start_date, $end_date );
 	}
 
 }

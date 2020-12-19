@@ -71,7 +71,7 @@ window.addEventListener('load', function () {
     // build tracker URL
     let queryStr = ''
    
-    
+    console.log(yardlineObject.restURL);
     queryStr += '_=' + Math.floor(Date.now() / 1000)
     queryStr += '&_wpnonce=' + yardlineObject.wpnonce + '&yardline_hit_rest=yes'
     queryStr += '&ua=' + navigator.userAgent 
@@ -80,7 +80,7 @@ window.addEventListener('load', function () {
     queryStr += '&up=' + (isUniquePageview ? '1' : '0')
    queryStr += '&r=' + encodeURIComponent(referrer)
    // queryStr += '&referred=' + document.referrer
-    console.log(queryStr);
+   
     Yardline_http.open('GET', yardlineObject.restURL + 'yardline/v1/hit' + (yardlineObject.restURL.includes("?") ? '&' : '?') + queryStr, true);
     Yardline_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     Yardline_http.send(null);
