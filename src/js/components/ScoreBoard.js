@@ -4,10 +4,19 @@ import PageViews from './PageViews.js';
 import Visitors from './Visitors.js';
 import Refers from './Refers.js';
 import Range from './Range.js';
+import { format } from 'date-fns';
 
 class ScoreBoard extends React.Component {
+    formatDate(date){
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        return year+'-'+month+'-'+day;
+    };
     state = {
         range: {
+           // startDate: format(new Date( Date.now() - 7 * 24 * 60 * 60 * 1000 ), 'yyyy-MM-dd'),
+            //endDate: format(new Date( Date.now() - 1 * 24 * 60 * 60 * 1000 ), 'yyyy-MM-dd'),
             startDate: new Date( Date.now() - 7 * 24 * 60 * 60 * 1000 ),
             endDate: new Date( Date.now() - 1 * 24 * 60 * 60 * 1000 ),
             key: 'selection',
@@ -34,29 +43,6 @@ class ScoreBoard extends React.Component {
             },
             
           ],
-          visitorsData: [
-            {
-              name: 'Dec 6', uv: 4000, pv: 2400, amt: 2400,
-            },
-            {
-              name: 'Dec 7', uv: 3000, pv: 1398, amt: 2210,
-            },
-            {
-              name: 'Dec 8', uv: 2000, pv: 1800, amt: 2290,
-            },
-            {
-              name: 'Dec 9', uv: 2780, pv: 1908, amt: 2000,
-            },
-            {
-              name: 'Dec 10', uv: 1890, pv: 800, amt: 2181,
-            },
-            {
-              name: 'Dec 11', uv: 2390, pv: 1800, amt: 2500,
-            },
-            {
-              name: 'Dec 12', uv: 3490, pv: 2300, amt: 2100,
-            },
-          ],
           refersData: [
             {
                 name: 'facebook.com', pv: 9800,
@@ -70,22 +56,93 @@ class ScoreBoard extends React.Component {
               {
                 name: 'Page 4', pv: 800,
               },
-          ]
+          ],
+          statsData : [],
+          marqueeData : {
+            visitors: {
+                name:'Visitors',
+                number: 4500,
+                percent: 2,
+            },
+            pageviews: {
+                name:'Pageviews',
+                number: 230,
+                percent: 1,
+            },
+            numberOfOrders: {
+                name: 'Number of Sales',
+                number: 28,
+                percent: -3
+            },
+            formSubmissions: {
+                name: 'Form Submissions',
+                number: 18,
+                percent: 8
+            }
+          }
     }
     setRange = (range) => {
-        this.setState({range});
+        this.getStats(range); 
+        this.setState({range});  
+        
+    }
+    getStats = (range) => {
+        let queryStr = ''
+        queryStr = this.props.restURL + 'yardline/v1/stats?'
+        queryStr += 'start_date=' + this.formatDate(range.startDate)
+        queryStr += '&end_date=' + this.formatDate(range.endDate)
+       
+        fetch(queryStr)
+          .then(response => response.json())
+          .then(data => this.setState( {
+              statsData: data,
+              marqueeData: {
+                  visitors: {
+                name:'Visitors',
+                number: this.sumStats(data).visitors,
+                percent: 2,
+            },
+            pageviews: {
+                name:'Page Views',
+                number: this.sumStats(data).pageviews,
+                percent: 2,
+            },
+        }
+        }))
+          
+    }
+
+    sumStats = (data) => {
+        let statsSum = data;
+        let visitors = 0;
+        let pageviews = 0;
+        console.log('sumVisitors');
+        console.log(data);
+        statsSum.forEach( stat => {
+            console.log(stat);
+            visitors += parseInt(stat.visitors);
+            pageviews += parseInt(stat.pageviews);
+        }
             
+            );
+       
+        return { visitors: visitors, pageviews: pageviews };
+    }
+    
+    componentDidMount() {
+        this.getStats(this.state.range)
         
     }
     render() {
+        
         return (
             <div>
-                
+
                 <h1>{this.props.siteTitle} Scoreboard</h1>
                 <Range range={this.state.range} setRange={this.setRange} />
                 {/* <Picker range={this.state.range} setRange={this.setRange} /> */}
-                <Marquee />
-                <Visitors visitorsData={this.state.visitorsData}/>
+                <Marquee marqueeData={this.state.marqueeData}/>
+                <Visitors statsData={this.state.statsData}/>
                 <div className="scoreboard-row">
                     <PageViews pageViewsData={this.state.pageViewsData}/>
                     <Refers refersData={this.state.refersData}/>

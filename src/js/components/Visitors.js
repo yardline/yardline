@@ -12,18 +12,18 @@ class Visitors extends React.Component {
                 <ResponsiveContainer width="100%" height={350}>
                   <BarChart
                    
-                    data={this.props.visitorsData}
+                    data={this.props.statsData}
                     margin={{
                     top: 20, right: 30, left: 20, bottom: 5,
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
+                    <XAxis dataKey="date" />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar name="Visitors" dataKey="pv" stackId="a" fill="#ec4444" />
-                    <Bar name="Page Views" dataKey="uv" stackId="b" fill="#0084c1" />
+                    <Bar name="Visitors" dataKey="visitors" stackId="a" fill="#ec4444" />
+                    <Bar name="Page Views" dataKey="pageviews" stackId="b" fill="#0084c1" />
                   </BarChart>
                 </ResponsiveContainer>
   

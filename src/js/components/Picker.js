@@ -8,7 +8,6 @@ import { Calendar } from 'react-date-range';
 class Picker extends React.Component {
 
   handleSelect = ranges => {
-        // console.log(ranges.selection)
         this.props.setRange( ranges.selection );
         this.props.toggleClass();
   }

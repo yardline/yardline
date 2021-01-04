@@ -69,8 +69,8 @@ class Site_Stats extends DB {
 	public function get_columns() {
 		return array(
 			'date'          => '%s',
-			'visitors'      => '%d',
-			'pageviews'     => '%d',
+			'visitors'      => (int) '%d',
+			'pageviews'     => (int) '%d',
 			
 			
 		);
@@ -110,7 +110,9 @@ class Site_Stats extends DB {
 
 	public function get_for_date_range( $start_date, $end_date ) {
 		global $wpdb;
+		//dev_log('in get for date range');
 		$sql = $wpdb->prepare( "SELECT date, visitors, pageviews FROM {$wpdb->prefix}yl_site_stats s WHERE s.date >= %s AND s.date <= %s", array( $start_date, $end_date ) );
+		//dev_log($wpdb->get_results( $sql ));
 		return $wpdb->get_results( $sql );
 	}
 

@@ -29,10 +29,10 @@ class Marquee extends React.Component {
             <div className="marquee yl-dark-bg yl-radius">
                 
             <div className="stat-wrap">
-                <BigStat stat={stat.visitors}/>
-                <BigStat stat={stat.pageviews}/>
-                <BigStat stat={stat.numberOfOrders}/>
-                <BigStat stat={stat.formSubmissions}/>
+                {Object.keys(this.props.marqueeData).map( 
+                    key => <BigStat stat={this.props.marqueeData[key]}/>
+                )}
+                
             </div>
             </div>
         );
