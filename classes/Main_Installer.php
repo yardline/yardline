@@ -20,7 +20,7 @@ class Main_Installer extends Installer {
 	 * Activate the plugin.
 	 */
 	protected function activate() {
-		set_transient( 'groundhogg_review_request_dismissed', WEEK_IN_SECONDS );
+		set_transient( 'yardline_review_request_dismissed', WEEK_IN_SECONDS );
 
 		// Multisite compatibility, re-init as after_setup_theme DB $prefix is wrong.!
 		if ( is_multisite() ) {
@@ -35,8 +35,6 @@ class Main_Installer extends Installer {
 
 		
 		// $settings = [
-		// 	'gh_override_from_name'               => get_bloginfo( 'name' ),
-		// 	'gh_override_from_email'              => get_bloginfo( 'admin_email' ),
 		// 	'gh_confirmation_grace_period'        => 14,
 		// 	'gh_event_failure_notification_email' => get_bloginfo( 'admin_email' ),
 		// ];
@@ -100,7 +98,7 @@ class Main_Installer extends Installer {
 
 		// if ( $plugin == plugin_basename( YARDLINE__FILE__ ) && ! is_white_labeled() ) {
 		// 	if ( Plugin::$instance->settings->is_option_enabled( 'gh_guided_setup_finished' ) ) {
-		// 		exit( wp_redirect( admin_url( 'admin.php?page=groundhogg' ) ) );
+		// 		exit( wp_redirect( admin_url( 'admin.php?page=yardline' ) ) );
 		// 	} else {
 		// 		exit( wp_redirect( admin_url( 'admin.php?page=gh_guided_setup' ) ) );
 		// 	}
