@@ -19,11 +19,12 @@ class PageViews extends React.Component {
                   >
                    
                     <XAxis hide="true" type="number" />
-                    <YAxis hide="true" dataKey="name" type="category"   />
-                    <Tooltip />
+                    <YAxis hide="true" dataKey="path" type="category"   />
+                    <Tooltip active={true}/>
                   
-                    <Bar  name="Visitors" dataKey="pv" stackId="a" fill="rgba(236,68,68,0.5)" >
-                        <LabelList dataKey="name" position="insideLeft" />
+                    <Bar  name="Visitors" dataKey="pageviews" stackId="a" fill="rgba(236,68,68,0.5)" >
+                        <LabelList dataKey="path" position="insideLeft" />
+                        <LabelList dataKey="pageviews" position="right" />
                     </Bar>  
                   </BarChart>
                 </ResponsiveContainer>

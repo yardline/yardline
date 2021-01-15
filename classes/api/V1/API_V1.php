@@ -5,6 +5,7 @@ use function Yardline\dev_log;
 // use Yardline\Site_Stat;
 use Yardline\Hit_Tracker;
 use Yardline\Site_Stats;
+use Yardline\Page_Views;
 /**
  * Class WP_Statistics_Rest
  */
@@ -81,6 +82,26 @@ class API_V1 {
 				],
 				'permission_callback' => function () {
 					//return current_user_can( 'view_yardline' );
+					return true;
+				},
+			]
+		);
+
+		register_rest_route(
+			self::route,
+			'/pageviews',
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_pageviews' ],
+				'args'                => [
+					'start_date' => [
+						'validate_callback' => [ $this, 'validate_date_param' ],
+					],
+					'end_date'   => [
+						'validate_callback' => [ $this, 'validate_date_param' ],
+					],
+				],
+				'permission_callback' => function () {
 					return true;
 				},
 			]
@@ -174,21 +195,26 @@ class API_V1 {
 	}
 
 	public function get_stats( \WP_REST_Request $request ) {
-        dev_log('API Stats hit fired');
-       // dev_log($request);
-       $params     = $request->get_query_params();
+       
+       	$params     = $request->get_query_params();
 		$start_date = isset( $params['start_date'] ) ? $params['start_date'] : gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
         $end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		
-        $results = [];
-        $results = 'Stats Results';
 		$site_stats = new Site_Stats();
 
 		$stats_for_range =  $site_stats->get_for_date_range( $start_date, $end_date );
-		//dev_log(array_values($stats_for_range));
-		//return json_encode(array_values($stats_for_range), JSON_NUMERIC_CHECK );
 		return $stats_for_range;
-    }
+	}
+	
+	public function get_pageviews( \WP_REST_Request $request ) {
+		$page_views = new Page_Views();
+
+		$params     = $request->get_query_params();
+		$start_date = isset( $params['start_date'] ) ? $params['start_date'] : gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+        $end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+		
+		return $page_views->get_for_date_range( $start_date, $end_date );;
+	}
     
     public function validate_date_param( $param, $one, $two ) {
 		return strtotime( $param ) !== false;

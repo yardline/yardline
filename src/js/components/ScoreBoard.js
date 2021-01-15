@@ -83,6 +83,7 @@ class ScoreBoard extends React.Component {
     }
     setRange = (range) => {
         this.getStats(range); 
+        this.getPageViews(range);
         this.setState({range});  
         
     }
@@ -112,16 +113,28 @@ class ScoreBoard extends React.Component {
           
     }
 
+    getPageViews = (range) => {
+      let queryStr = ''
+        queryStr = this.props.restURL + 'yardline/v1/pageviews?'
+        queryStr += 'start_date=' + this.formatDate(range.startDate)
+        queryStr += '&end_date=' + this.formatDate(range.endDate)
+       
+        fetch(queryStr)
+          .then(response => response.json())
+          .then(data => this.setState( {
+            pageViewsData: data
+          }))
+    }
+
     sumStats = (data) => {
         let statsSum = data;
         let visitors = 0;
         let pageviews = 0;
-        console.log('sumVisitors');
-        console.log(data);
         statsSum.forEach( stat => {
-            console.log(stat);
+            
             visitors += parseInt(stat.visitors);
             pageviews += parseInt(stat.pageviews);
+           
         }
             
             );
@@ -131,6 +144,7 @@ class ScoreBoard extends React.Component {
     
     componentDidMount() {
         this.getStats(this.state.range)
+        this.getPageViews(this.state.range)
         
     }
     render() {

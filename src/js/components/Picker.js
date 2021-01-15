@@ -2,7 +2,7 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
 import React from 'react';
-import { DateRangePicker } from 'react-date-range';
+import { DateRangePicker, defaultStaticRanges, createStaticRanges } from 'react-date-range';
 import { Calendar } from 'react-date-range';
 
 class Picker extends React.Component {
@@ -26,6 +26,18 @@ class Picker extends React.Component {
         key: 'selection',
         
       }
+
+      const staticRanges = createStaticRanges([
+          {
+            label: 'Begining of Time',
+            range: () => ({
+              startDate: START_DATE,
+              endDate: new Date()
+            })
+          }
+        ]);
+  
+      console.log(staticRanges);
     return ( <div className={this.pickerClass(this.props.pickerOpen)}>
 
       <DateRangePicker
@@ -35,6 +47,7 @@ class Picker extends React.Component {
         months={2}
         direction="horizontal"
         maxDate={new Date()}
+        // staticRanges={[staticRanges]}
       /> 
     
     </div>
