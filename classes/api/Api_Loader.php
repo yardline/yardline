@@ -13,7 +13,7 @@ class Api_Loader
     public $v1;
 
     /**
-     * WPGH_API_LOADER constructor.
+     * Api_Loader constructor.
      */
     public function __construct()
     {
