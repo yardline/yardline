@@ -6,9 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Show a welcome screen which will help users find articles and extensions that will suit their needs.
- *
- * Class Page
+ * 
  * @package Yardline\
  */
 class Analytics {
