@@ -2,10 +2,10 @@
 
 namespace Yardline\Abstracts;
 
+use function Yardline\key_to_words;
 /**
  * Installer
  *
- * @license     https://opensource.org/licenses/GPL-3.0 GNU Public License v3
  */
 abstract class Installer {
 
@@ -40,9 +40,9 @@ abstract class Installer {
 			'class' => 'button',
 			'href'  => add_query_arg( [
 				'manual_install'       => $this->get_installer_name(),
-				'manual_install_nonce' => wp_create_nonce( 'gh_manual_install' ),
+				'manual_install_nonce' => wp_create_nonce( 'yardline_manual_install' ),
 			], $_SERVER['REQUEST_URI'] )
-		], __( 'Run Install', 'groundhogg' ) )
+		], __( 'Run Install', 'yardline' ) )
 
 		?></p><?php
 
@@ -53,13 +53,13 @@ abstract class Installer {
 	 */
 	public function do_manual_install() {
 
-		if ( get_request_var( 'manual_install' ) !== $this->get_installer_name() || ! wp_verify_nonce( get_request_var( 'manual_install_nonce' ), 'gh_manual_install' ) || ! current_user_can( 'install_plugins' ) ) {
+		if ( get_request_var( 'manual_install' ) !== $this->get_installer_name() || ! wp_verify_nonce( get_request_var( 'manual_install_nonce' ), 'yardline_manual_install' ) || ! current_user_can( 'install_plugins' ) ) {
 			return;
 		}
 
 		$this->activation_wrapper();
 
-		Plugin::$instance->notices->add( 'installed', __( 'Re-installed successful!', 'groundhogg' ) );
+		Plugin::$instance->notices->add( 'installed', __( 'Re-installed successful!', 'yardline' ) );
 	}
 
 	/**
@@ -69,7 +69,7 @@ abstract class Installer {
 	 */
 	public function fail_safe_install() {
 
-		$installed = get_option( "groundhogg_{$this->get_installer_name()}_installed", false );
+		$installed = get_option( "yardline_{$this->get_installer_name()}_installed", false );
 
 		if ( ! $installed ) {
 			$this->activation_wrapper();
@@ -104,39 +104,39 @@ abstract class Installer {
 	 * Take care of some basic stuff pre-activation
 	 */
 	protected function pre_activate() {
-		do_action( "groundhogg/activating", $this->get_installer_name() );
-		do_action( "groundhogg/{$this->get_installer_name()}/activating" );
+		do_action( "yardline/activating", $this->get_installer_name() );
+		do_action( "yardline/{$this->get_installer_name()}/activating" );
 	}
 
 	/**
 	 * Take care of basic stuff post activation
 	 */
 	protected function post_activate() {
-		do_action( "groundhogg/activated", $this->get_installer_name() );
-		do_action( "groundhogg/{$this->get_installer_name()}/activated" );
+		do_action( "yardline/activated", $this->get_installer_name() );
+		do_action( "yardline/{$this->get_installer_name()}/activated" );
 
-		set_transient( "groundhogg_{$this->get_installer_name()}_activated", time(), MINUTE_IN_SECONDS );
+		set_transient( "yardline_{$this->get_installer_name()}_activated", time(), MINUTE_IN_SECONDS );
 
-		update_option( "groundhogg_{$this->get_installer_name()}_installed", time() );
+		update_option( "yardline_{$this->get_installer_name()}_installed", time() );
 	}
 
 	/**
 	 * Take care of some basic stuff pre-deactivation
 	 */
 	protected function pre_deactivate() {
-		do_action( "groundhogg/deactivating", $this->get_installer_name() );
-		do_action( "groundhogg/{$this->get_installer_name()}/deactivating" );
+		do_action( "yardline/deactivating", $this->get_installer_name() );
+		do_action( "yardline/{$this->get_installer_name()}/deactivating" );
 	}
 
 	/**
 	 * Take care of basic stuff post deactivation
 	 */
 	protected function post_deactivate() {
-		do_action( "groundhogg/deactivated", $this->get_installer_name() );
-		do_action( "groundhogg/{$this->get_installer_name()}/deactivated" );
+		do_action( "yardline/deactivated", $this->get_installer_name() );
+		do_action( "yardline/{$this->get_installer_name()}/deactivated" );
 
-		set_transient( "groundhogg_{$this->get_installer_name()}_deactivated", time(), MINUTE_IN_SECONDS );
-		delete_option( "groundhogg_{$this->get_installer_name()}_installed" );
+		set_transient( "yardline_{$this->get_installer_name()}_deactivated", time(), MINUTE_IN_SECONDS );
+		delete_option( "yardline_{$this->get_installer_name()}_installed" );
 	}
 
 	/**
@@ -203,7 +203,7 @@ abstract class Installer {
 	}
 
 	/**
-	 * When a new Blog is created in multisite, see if GH is network activated, and run the installer
+	 * When a new Blog is created in multisite, see if Yardline is network activated, and run the installer
 	 *
 	 * @since  2.5
 	 *

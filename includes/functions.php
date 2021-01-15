@@ -203,6 +203,32 @@ function array_to_atts( $atts ) {
 	return $tag;
 }
 
+/**
+ * Can the dbs be used?
+ *
+ * @return bool
+ */
+function are_dbs_initialised() {
+	return Plugin::$instance->dbs->is_initialized();
+}
+
+/**
+ * Emergency initialize the dbs.
+ */
+function emergency_init_dbs() {
+	Plugin::$instance->dbs->init_dbs();
+}
+
+/**
+ * convert a key to words.
+ *
+ * @param $key
+ *
+ * @return string
+ */
+function key_to_words( $key ) {
+	return ucwords( preg_replace( '/[-_]/', ' ', $key ) );
+}
 
 function dev_log($message)
 {

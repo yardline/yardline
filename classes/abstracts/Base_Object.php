@@ -1,6 +1,6 @@
 <?php
 namespace Yardline\Abstracts;
-use function Yardline\dev_log;
+
 use Yardline\DB\DB;
 use Yardline\Abstracts\Supports_Errors;
 use Serializable;
