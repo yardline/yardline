@@ -7,11 +7,10 @@ use Yardline\Hit_Tracker;
 use Yardline\Site_Stats;
 use Yardline\Page_Views;
 /**
- * Class WP_Statistics_Rest
+ * Class API_V1
  */
 class API_V1 {
 
-	// Set Default namespace
 	const route = 'yardline/v1';
 
 	// Set Default Name
@@ -121,21 +120,18 @@ class API_V1 {
 	}
 
 	/*
-	 * Wp Statistic Hit Save
+	 * Hit Save
 	 */
 	public function hit( \WP_REST_Request $request ) {
 		
-		dev_log('API hit fired');
+		//dev_log('API hit fired');
 		// Get Params
 		$url        = $request->get_param( 'url' );
 		$user_agent = $request->get_param( 'ua' );
 		$new_visitor = $request->get_param( 'nv' );
 		$unique_pageview = $request->get_param( 'up' );
 		$referer = $request->get_param( 'r' );
-		//dev_log( 'Post ID: ' . url_to_postid( $url ));
-		//dev_log( 'UA: ' . $user_agent );
-		//dev_log( 'New V: ' . $new_visitor );
-		//dev_log( 'UP: ' .$unique_pageview );
+		
 		if ( empty( $url ) || $unique_pageview == 0 ) {
 			return;
 		}
@@ -148,30 +144,13 @@ class API_V1 {
 		];
 		$hit_tracker = new Hit_Tracker();
 		$hit_tracker->track_hit( $stats_data );
-		
-		//need to add these to the DB here??
 		$post_id = url_to_postid( $url );
-		//Determine if has post_id
 		if( $post_id ) {
 			$stats_data['post_type'] = get_post_type( $post_id );
 		}
 		
 		// Set Return
 		return new \WP_REST_Response( array( 'status' => true, 'message' => __( 'Visitor Hit was recorded successfully.', 'yardline' ) ) );
-	}
-
-	/*
-	 * Check is Rest Request
-	 */
-	static public function is_rest() {
-		
-
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-			if ( isset( $_REQUEST[ self::_Argument ] ) ) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/*
@@ -208,7 +187,6 @@ class API_V1 {
 	
 	public function get_pageviews( \WP_REST_Request $request ) {
 		$page_views = new Page_Views();
-
 		$params     = $request->get_query_params();
 		$start_date = isset( $params['start_date'] ) ? $params['start_date'] : gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
         $end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
