@@ -3,6 +3,8 @@ namespace Yardline;
 
 use Yardline\DB\Page_Paths as Page_Paths_DB;
 use function Yardline\dev_log;
+
+
 class Page_Paths {
 
     public $db;
@@ -14,12 +16,9 @@ class Page_Paths {
     public function add_urls( $paths ) {
         global $wpdb;
 		foreach( $paths as $path ) {
-           // dev_log($path);
             $url = get_site_url() . $path;
-           
             $post_id = url_to_postid( $url );
-           
-           $type = $this->set_type( $path, $post_id );
+            $type = $this->set_type( $path, $post_id );
 			
 			$this->db->add([
 				'path'		=> $path,
@@ -37,7 +36,6 @@ class Page_Paths {
         }
        $url = get_site_url() . $path;
         if ( rtrim( $url, "/" ) == get_home_url() ) {
-           // dev_log('home');
             return 'home';
         }
 
@@ -51,7 +49,6 @@ class Page_Paths {
 		$cat                   = get_category_by_path( $sanitize_category_url );
 		if ( is_object( $cat ) and $cat != false ) {
 			return 'category';
-			//$_REQUEST['current_page_id']   = $cat->term_id;
 		}
             
         return 'other';
