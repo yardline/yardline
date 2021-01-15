@@ -1,7 +1,6 @@
 <?php
 namespace Yardline;
 
-use function Yardline\dev_log;
 use Yardline\Abstracts\Base_Object;
 use Yardline\DB\Site_Stats as Site_Stats_DB;
 
@@ -25,11 +24,6 @@ class Site_Stats {
         return 'site_stat';
 	}
 	
-	public function register_hit($pv, $uv) {
-		//dev_log('register hit');
-		//$this->get_db()->add();
-	}
-
 	public function get_for_date_range( $start_date, $end_date ) {
 		return $this->db->get_for_date_range( $start_date, $end_date );
 	}
