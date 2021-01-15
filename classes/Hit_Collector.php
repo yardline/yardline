@@ -6,7 +6,6 @@ use Yardline\Page_Paths;
 use function Yardline\dev_log;
 class Hit_Collector {
 
-    //set cron
 
     //make sure to add cron to deactivation hook!!!!
     public function init() {
@@ -17,14 +16,12 @@ class Hit_Collector {
     public function add_interval( $intervals ) {
 		$intervals['yardline_hits_interval'] = array(
 			'interval' => 1 * 60, // 1 minute
-			'display'  => esc_html__( 'Every minute', 'koko-analytics' ),
+			'display'  => esc_html__( 'Every minute', 'yardline' ),
 		);
 		return $intervals;
 	}
 
     public function schedule() {
-       
-
         if ( ! wp_next_scheduled( 'yardline_hit_collector' ) && ! wp_installing() ) {
             wp_schedule_event( time() + 60, 'yardline_hits_interval', 'yardline_hit_collector' );
         }
