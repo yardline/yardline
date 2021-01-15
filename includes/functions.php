@@ -59,7 +59,7 @@ function get_request_var( $key = '', $default = false, $post_only = false ) {
 if ( ! function_exists( __NAMESPACE__ . '\is_white_labeled' ) ) {
 
 	/**
-	 * Whether the Groundhogg is white labeled or not.
+	 * Whether Yardline is white labeled or not.
 	 *
 	 * @return bool
 	 */
@@ -203,15 +203,6 @@ function array_to_atts( $atts ) {
 	return $tag;
 }
 
-/**
- * Enqueues the modal scripts
- *
- * @return Modal
- *
- */
-function enqueue_yardline_modal() {
-	//return Modal::instance();
-}
 
 function dev_log($message)
 {

@@ -1,21 +1,21 @@
 <?php
 /**
- * Plugin Name: Yardline Analytics
+ * Plugin Name: Yardline
  * Plugin URI: https://yardlineanalytics.com
  * Description: Learn how to use namespaces and autoload with composer in WordPress plugins.
  * Version: 0.1.0
- * Author: Yardline Analytcs
+ * Author: Yardline
  * Author URI: https://yardlineanalytics.com
  * License: GPL2
  * Text Domain: yardline
  * Domain Path: languages
  * 
- * Yardline Analytics is free software: you can redistribute it and/or modify
+ * Yardline is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * any later version.
  *
- * Yardline Analytics is distributed in the hope that it will be useful,
+ * Yardline is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
@@ -42,9 +42,9 @@ add_action( 'plugins_loaded', 'yardline_load_plugin_textdomain' );
 define( 'YARDLINE_TEXT_DOMAIN', 'yardline' );
 
 if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
-    add_action( 'admin_notices', 'yarline_fail_php_version' );
+    add_action( 'admin_notices', 'yardline_fail_php_version' );
 } elseif ( ! version_compare( get_bloginfo( 'version' ), '4.9', '>=' ) ) {
-    add_action( 'admin_notices', 'yarline_fail_wp_version' );
+    add_action( 'admin_notices', 'yardline_fail_wp_version' );
 } else {
     require YARDLINE_PATH . 'bootstrap.php';
 }
@@ -73,7 +73,7 @@ function yardline_load_plugin_textdomain() {
  * @return void
  */
 function yardline_fail_php_version() {
-    /* translators: %s: PHP version */
+    
     $message = sprintf( esc_html__( 'Yardline requires PHP version %s+, plugin is currently NOT RUNNING.', 'yardline' ), '5.6' );
     $html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
     echo wp_kses_post( $html_message );

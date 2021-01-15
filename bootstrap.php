@@ -6,10 +6,11 @@ require YARDLINE_PATH . 'vendor/autoload.php';
 add_action( 'init', function() {
     Plugin::instance();
 }, 1 );
+
 /**
- * WP Simple Stats loaded.
+ * Yardline loaded.
  *
- * Fires when WP Simple Stats was fully loaded and instantiated.
+ * Fires when Yardline is fully loaded and instantiated.
  *
  * @since 1.0.0
  */
