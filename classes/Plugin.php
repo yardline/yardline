@@ -116,25 +116,22 @@ class Plugin {
     /**
      * Plugin constructor.
      *
-     * Initializing Simple Stats plugin.
+     * Initializing Yardline plugin.
      *
      * @since 1.0.0
      * @access private
      */
     private function __construct() {
 
-       
         if ( did_action( 'plugins_loaded' ) ){
             $this->init();
         } else {
             add_action( 'plugins_loaded', [ $this, 'init' ], 0 );
         }
-
     }
 
      /**
      * Init components.
-     *
      *
      * @since 1.0.0
      * @access private
@@ -163,6 +160,5 @@ class Plugin {
         require  YARDLINE_PATH . '/includes/functions.php';
 
     }
-
 
 }
