@@ -204,6 +204,31 @@ function array_to_atts( $atts ) {
 }
 
 /**
+ * Convert array to CSS style attributes
+ *
+ * @param $atts
+ *
+ * @return string
+ */
+function array_to_css( $atts ) {
+
+	if ( ! is_array( $atts ) ) {
+		return $atts;
+	}
+
+	$css = '';
+	foreach ( $atts as $key => $value ) {
+
+		if ( is_array( $value ) ) {
+			$value = implode( ' ', $value );
+		}
+
+		$css .= sanitize_key( $key ) . ':' . esc_attr( $value ) . ';';
+	}
+
+	return $css;
+}
+/**
  * Can the dbs be used?
  *
  * @return bool

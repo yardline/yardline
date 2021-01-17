@@ -137,7 +137,7 @@ class Plugin {
      * @access private
      */
     private function init_components() {
-        //$this->settings     = new Settings();
+        $this->settings     = new Settings();
         $this->analytics = new Analytics();
         $this->api = new Api_Loader();
         $this->dbs = new DB_Manager();

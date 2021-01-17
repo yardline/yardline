@@ -3,14 +3,11 @@
 namespace Yardline\Admin;
 
 use Yardline\Admin\Admin_Page;
-//use Groundhogg\Extension;
-//use Groundhogg\Mailhawk;
-//use Groundhogg\SendWp;
+
 use function Yardline\get_array_var;
 use function Yardline\get_request_var;
 use function Yardline\html;
 use function Yardline\is_white_labeled;
-//use Groundhogg\License_Manager;
 use Yardline\Plugin;
 use function Yardline\isset_not_empty;
 use function Yardline\white_labeled_name;
@@ -58,8 +55,7 @@ class Settings_Page extends Admin_Page {
 		add_action( 'admin_init', array( $this, 'init_defaults' ) );
 		add_action( 'admin_init', array( $this, 'register_sections' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		//add_action( "groundhogg/admin/settings/api_tab/after_form", [ $this, 'api_keys_table' ] );
-		//add_action( "groundhogg/admin/settings/extensions/after_submit", [ $this, 'show_extensions' ] );
+		
 	}
 
 	public function get_slug() {
@@ -183,7 +179,7 @@ class Settings_Page extends Admin_Page {
 				$callback = $section['callback'];
 			}
 
-			add_settings_section( 'gh_' . $section['id'], $section['title'], $callback, 'gh_' . $section['tab'] );
+			add_settings_section( 'yl_' . $section['id'], $section['title'], $callback, 'yl_' . $section['tab'] );
 		}
 
 	}
@@ -199,10 +195,6 @@ class Settings_Page extends Admin_Page {
 				'id'    => 'general',
 				'title' => _x( 'General', 'settings_tabs', 'yardline' )
 			),		
-			'api_tab'   => array(
-				'id'    => 'api_tab',
-				'title' => _x( 'API', 'settings_tabs', 'yardline' )
-			),
 			'misc'      => array(
 				'id'    => 'misc',
 				'title' => _x( 'Misc', 'settings_tabs', 'yardline' )
@@ -302,23 +294,23 @@ class Settings_Page extends Admin_Page {
 				'type'    => 'checkbox',
 				'atts'    => array(
 					'label' => __( 'Enable' ),
-					//keep brackets for backwards compat
-					'name'  => 'yl_uninstall_on_delete[]',
+					
+					'name'  => 'yl_uninstall_on_delete',
 					'id'    => 'yl_uninstall_on_delete',
 					'value' => 'on',
 				),
 			),
-			'gh_opted_in_stats_collection'           => array(
-				'id'      => 'gh_opted_in_stats_collection',
+			'yl_opted_in_stats_collection'           => array(
+				'id'      => 'yl_opted_in_stats_collection',
 				'section' => 'misc_info',
 				'label'   => _x( 'Optin to anonymous usage tracking.', 'settings', 'groundhogg' ),
 				'desc'    => sprintf( _x( 'Help us make %s better by providing anonymous usage information about your site.', 'settings', 'groundhogg' ), white_labeled_name() ),
 				'type'    => 'checkbox',
 				'atts'    => array(
 					'label' => __( 'Enable' ),
-					//keep brackets for backwards compat
-					'name'  => 'gh_opted_in_stats_collection',
-					'id'    => 'gh_opted_in_stats_collection',
+					
+					'name'  => 'yl_opted_in_stats_collection',
+					'id'    => 'yl_opted_in_stats_collection',
 					'value' => 'on',
 				),
 			),
@@ -341,8 +333,7 @@ class Settings_Page extends Admin_Page {
 				'type'    => 'checkbox',
 				'atts'    => array(
 					'label' => __( 'Enable' ),
-					//keep brackets for backwards compat
-					'name'  => 'yl_enable_gdpr[]',
+					'name'  => 'yl_enable_gdpr',
 					'id'    => 'yl_enable_gdpr',
 					'value' => 'on',
 				),
@@ -493,7 +484,7 @@ class Settings_Page extends Admin_Page {
 
 		global $wp_settings_sections;
 
-		return isset( $wp_settings_sections[ 'gh_' . $tab ] );
+		return isset( $wp_settings_sections[ 'yl_' . $tab ] );
 	}
 
 	/**
@@ -562,7 +553,7 @@ class Settings_Page extends Admin_Page {
                 <!-- BEGIN SETTINGS -->
 				<?php
 				if ( $this->tab_has_settings() && $this->user_can_access_tab() ) {
-
+					
 					settings_fields( 'yl_' . $this->active_tab() );
 					do_settings_sections( 'yl_' . $this->active_tab() );
 					do_action( "yardline/admin/settings/{$this->active_tab()}/after_settings" );

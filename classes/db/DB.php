@@ -3,7 +3,7 @@ namespace Yardline\DB;
 
 use function yardline\get_array_var;
 use function yardline\isset_not_empty;
-use function Yardline\dev_log;
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -108,17 +108,6 @@ abstract class DB {
 	 */
 	public function get_table_name() {
 		return $this->table_name;
-	}
-
-	/**
-	 * Check if the site is global multisite enabled
-	 *
-	 * @deprecated
-	 * @return bool
-	 *
-	 */
-	private function is_global_multisite() {
-		return false;
 	}
 
 	/**
@@ -693,7 +682,6 @@ abstract class DB {
 	}
 
 	/**
-	 * New and improved query function to access DB in more complex and interesting ways.
 	 *
 	 * @param array $query_vars
 	 * @param bool  $from_cache

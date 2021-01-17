@@ -5,14 +5,14 @@ namespace Yardline\Admin;
 use Yardline\Admin\Admin_Page;
 use function Yardline\admin_page_url;
 use function Yardline\dashicon;
-use function Yardline\yardline_logo; //do this Phil
+use function Yardline\yardline_logo;
 use function Yardline\html;
 use function Yardline\is_white_labeled;
 use Yardline\License_Manager;
 use Yardline\Plugin;
 use function Yardline\white_labeled_name;
 
-//need to create and enqueue scripts
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -95,7 +95,7 @@ class Score_Board_Page extends Admin_Page {
 	}
 
 	/**
-	 * Add the page todo
+	 * Add the page
 	 */
 	public function register() {
 
@@ -135,11 +135,6 @@ class Score_Board_Page extends Admin_Page {
 		add_action( "load-" . $page, array( $this, 'help' ) );
 	}
 
-	/* Enque JS or CSS */
-	// public function scripts() {
-	// 	//wp_enqueue_style( 'groundhogg-admin' );
-	// 	//wp_enqueue_style( 'groundhogg-admin-welcome' );
-	// }
 
 	/**
 	 * Display the title and dependent action include the appropriate page content

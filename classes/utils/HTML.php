@@ -2,6 +2,8 @@
 namespace Yardline\Utils;
 
 use function Yardline\array_to_atts;
+use function Yardline\isset_not_empty;
+use function Yardline\array_to_css;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -140,6 +142,45 @@ class HTML {
 
 
 		return ob_get_clean();
+	}
+	/**
+	 * Output a simple input field
+	 *
+	 * @param $args
+	 *
+	 * @return string
+	 */
+	public function input( $args = [] ) {
+		$a = wp_parse_args( $args, array(
+			'type'        => 'text',
+			'name'        => '',
+			'id'          => '',
+			'class'       => 'regular-text',
+			'value'       => '',
+			'placeholder' => '',
+		) );
+
+		$specials = [
+			'required',
+			'checked',
+			'multiple'
+		];
+
+		// Backwards compat.
+		foreach ( $specials as $special ) {
+			if ( ! isset_not_empty( $a, $special ) ) {
+				unset( $a[ $special ] );
+			}
+		}
+
+		if ( isset_not_empty( $a, 'attributes' ) && is_array( $a['attributes'] ) ) {
+			$a = array_merge( $a, $a['attributes'] );
+			unset( $a['attributes'] );
+		}
+
+		$html = $this->e( 'input', $a );
+
+		return apply_filters( 'yardline/html/input', $html, $a );
 	}
 
 	

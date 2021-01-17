@@ -3,23 +3,19 @@
 namespace Yardline\Admin;
 
 use Yardline\Abstracts\Supports_Errors;
+use Yardline\Plugin;
 use function Yardline\get_request_var;
 use function Yardline\get_url_var;
 use function Yardline\html;
-use Yardline\Plugin;
 use function Yardline\isset_not_empty;
-use Yardline\Pointers;
 
 /**
  * Abstract Admin Page
  *
  * This is a base class for all admin pages
  *
- * @since       File available since Release 0.1
+ * @since       File available since Release 1.0
  * @subpackage  Admin
- * @author      Adrian Tobey <info@groundhogg.io>
- * @copyright   Copyright (c) 2018, Groundhogg Inc.
- * @license     https://opensource.org/licenses/GPL-3.0 GNU Public License v3
  * @package     Admin
  */
 
@@ -46,7 +42,6 @@ abstract class Admin_Page extends Supports_Errors {
 		if ( $this->is_current_page() ) {
 
 			add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
-			//add_action( 'admin_enqueue_scripts', [ $this, 'register_pointers' ] );
 			add_filter( 'admin_title', [ $this, 'admin_title' ], 10, 2 );
 
 			add_filter( "set-screen-option", [ $this, 'set_screen_options' ], 10, 3 );
@@ -237,26 +232,6 @@ abstract class Admin_Page extends Supports_Errors {
 	 * @return mixed
 	 */
 	abstract public function help();
-
-	/**
-	 * @return void
-	 */
-	public function register_pointers() {
-		new Pointers( $this->get_pointers() );
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function get_pointers() {
-		$pointers = [];
-
-		if ( method_exists( $this, 'get_pointers_' . $this->get_current_action() ) ) {
-			$pointers = call_user_func( [ $this, 'get_pointers_' . $this->get_current_action() ] );
-		}
-
-		return apply_filters( "yardline/admin/{$this->get_slug()}/{$this->get_current_action()}/pointers", $pointers );
-	}
 
 	/**
 	 * Get the affected items on this page
