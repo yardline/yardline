@@ -2,10 +2,9 @@
 
 namespace Yardline\DB;
 
-// Exit if accessed directly
 use function Yardline\get_array_var;
 use function Yardline\get_db;
-use function Yardline\dev_log;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -13,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Site Stats DB
  *
- * @since       File available since Release 1.0
+ * @since File available since Release 1.0
  *
  */
 class Page_Stats extends DB {
@@ -112,14 +111,12 @@ class Page_Stats extends DB {
 	public function add_on_duplicate( $data = array() ) {
 		global $wpdb;
 		$data = wp_parse_args( $data, $this->get_column_defaults() );
-		//dev_log('Data');
-		//dev_log($data);
 		$sql = $wpdb->prepare( 
 			"INSERT INTO {$wpdb->prefix}yl_page_stats(date, path_id, visitors, pageviews) 
 			VALUES(%s, %d, %d, %d) 
 			ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", 
 			array( $data['date'], $data['path_id'], $data['visitors'], $data['pageviews'] ) );
-			//dev_log($sql);
+			
 		$wpdb->query( $sql );
 	}
 

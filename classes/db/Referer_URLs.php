@@ -1,8 +1,6 @@
 <?php
-
 namespace Yardline\DB;
 
-// Exit if accessed directly
 use function Yardline\get_array_var;
 use function Yardline\get_db;
 

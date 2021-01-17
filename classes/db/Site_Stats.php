@@ -2,10 +2,8 @@
 
 namespace Yardline\DB;
 
-// Exit if accessed directly
 use function Yardline\get_array_var;
 use function Yardline\get_db;
-use function Yardline\dev_log;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -71,8 +69,6 @@ class Site_Stats extends DB {
 			'date'          => '%s',
 			'visitors'      => (int) '%d',
 			'pageviews'     => (int) '%d',
-			
-			
 		);
 	}
 
@@ -83,7 +79,6 @@ class Site_Stats extends DB {
 	 */
 	public function get_column_defaults() {
 		return array(
-			
 			'date'          => date( 'Y-m-d'),
             'visitors'      => 0,
             'pageviews'     => 0,
@@ -110,9 +105,7 @@ class Site_Stats extends DB {
 
 	public function get_for_date_range( $start_date, $end_date ) {
 		global $wpdb;
-		//dev_log('in get for date range');
 		$sql = $wpdb->prepare( "SELECT date, visitors, pageviews FROM {$wpdb->prefix}yl_site_stats s WHERE s.date >= %s AND s.date <= %s", array( $start_date, $end_date ) );
-		//dev_log($wpdb->get_results( $sql ));
 		return $wpdb->get_results( $sql );
 	}
 
@@ -127,7 +120,6 @@ class Site_Stats extends DB {
 			$data,
 			$this->get_column_defaults()
 		);
-
 
 		if ( empty( $args['date'] ) ) {
 			return false;
