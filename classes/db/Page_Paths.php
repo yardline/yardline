@@ -2,10 +2,8 @@
 
 namespace Yardline\DB;
 
-// Exit if accessed directly
 use function Yardline\get_array_var;
 use function Yardline\get_db;
-use function Yardline\dev_log;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
