@@ -25,7 +25,7 @@ class Hit_Tracker {
         $path = $stats['url'] ?: '';
         $is_new_visitor = $stats['visitors'];
         $is_unique_pageview = $stats['pageviews'];
-        $referrer = $stats['referer'] ?: '';
+        $referrer = $stats['referrer'] ?: '';
         $filename = $this->get_buffer_filename();
     
         if ( ! file_exists( $filename ) ) {

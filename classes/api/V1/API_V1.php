@@ -130,7 +130,7 @@ class API_V1 {
 		$user_agent = $request->get_param( 'ua' );
 		$new_visitor = $request->get_param( 'nv' );
 		$unique_pageview = $request->get_param( 'up' );
-		$referer = $request->get_param( 'r' );
+		$referrer = $request->get_param( 'r' );
 		
 		if ( empty( $url ) || $unique_pageview == 0 ) {
 			return;
@@ -140,7 +140,7 @@ class API_V1 {
 			'url' => esc_url_raw( $url ),
 			'visitors' => $new_visitor,
 			'pageviews' =>$unique_pageview,
-			'referer' => esc_url_raw( $referer )
+			'referrer' => esc_url_raw( $referrer )
 		];
 		$hit_tracker = new Hit_Tracker();
 		$hit_tracker->track_hit( $stats_data );

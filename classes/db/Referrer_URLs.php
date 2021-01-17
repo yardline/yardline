@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since       File available since Release 1.0
  *
  */
-class Referer_URLs extends DB {
+class Referrer_URLs extends DB {
 
 	/**
 	 * Get the DB suffix
@@ -22,7 +22,7 @@ class Referer_URLs extends DB {
 	 * @return string
 	 */
 	public function get_db_suffix() {
-		return 'yl_referer_urls';
+		return 'yl_referrer_urls';
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Referer_URLs extends DB {
 	 * @return string
 	 */
 	public function get_object_type() {
-		return 'referer_url';
+		return 'referrer_url';
 	}
 
 	
