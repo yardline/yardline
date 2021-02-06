@@ -77,6 +77,13 @@ class Referrer_URLs extends DB {
 		);
 	}
 
+	public function get_by_urls( array $urls) {
+		global $wpdb;
+		$placeholders  = rtrim( str_repeat( '%s,', count( $urls ) ), ',' );
+		$sql = $wpdb->prepare( "SELECT id, path FROM {$wpdb->prefix}yl_referrer_urls r WHERE r.path IN({$placeholders})", $urls );
+		return $wpdb->get_results( $sql );
+	}
+
 	/**
 	 * Add a activity
 	 *

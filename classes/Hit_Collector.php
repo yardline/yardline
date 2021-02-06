@@ -166,43 +166,42 @@ class Hit_Collector {
 		}
 
 		if ( count( $referrer_stats ) > 0 ) {
-			// retrieve ID's for known referrer urls
-			// $referrer_urls = array_keys( $referrer_stats );
-			// $placeholders  = rtrim( str_repeat( '%s,', count( $referrer_urls ) ), ',' );
-			// $sql           = $wpdb->prepare( "SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls r WHERE r.url IN({$placeholders})", $referrer_urls );
-			// $results       = $wpdb->get_results( $sql );
-			// foreach ( $results as $r ) {
-			// 	$referrer_stats[ $r->url ]['id'] = $r->id;
-			// }
+			 //select urls from page paths table
+			 $referrers = new Referrers();
+			//create a method in referrers that will get existing urls from the referrer URL table
+			 $exisiting_urls = $referrers->get_by_urls( array_keys( $referrer_stats ) );
+			   
+		   
+			 if ( $exisiting_urls ) {
+				 //add path id to $post_stats;
+				 foreach( $exisiting_urls as $exisiting_url) {
+					$post_stats[ $exisiting_url->url ]['url_id'] = $exisiting_url->id;
+				 } 
+			 }
+			 $new_urls = [];
+			 foreach ($referrer_stats as $url => $referrer_stat) {
+				 if ( ! isset( $referrer_stat['url_id'] ) ) {
+					 $new_urls[] = $url;
+				 }
+			 }
+ 
+			 if ( count( $new_urls ) > 0 ) {
+  
+				 $referrers->add_urls( $new_urlss );
+				 $values       = $new_paths;
+				 $last_insert_id = $wpdb->insert_id;
+				 foreach ( array_reverse( $values ) as $url ) {
+					 $referrer_stats[ $url ]['url_id'] = $last_insert_id--;
+				 }
+			 }
+			 //$page_stats = new Page_Stats();
+			 $referrers->add_stats( $referrer_stats );
+			
 
-			// // build query for new referrer urls
-			// $new_referrer_urls = array();
-			// foreach ( $referrer_stats as $url => $r ) {
-			// 	if ( ! isset( $r['id'] ) ) {
-			// 		$new_referrer_urls[] = $url;
-			// 	}
-			// }
+			
+			
 
-			// insert new referrer urls and set ID in map
-			// if ( count( $new_referrer_urls ) > 0 ) {
-			// 	$values       = $new_referrer_urls;
-			// 	$placeholders = rtrim( str_repeat( '(%s),', count( $values ) ), ',' );
-			// 	$sql          = $wpdb->prepare( "INSERT INTO {$wpdb->prefix}koko_analytics_referrer_urls(url) VALUES {$placeholders}", $values );
-			// 	$wpdb->query( $sql );
-			// 	$last_insert_id = $wpdb->insert_id;
-			// 	foreach ( array_reverse( $values ) as $url ) {
-			// 		$referrer_stats[ $url ]['id'] = $last_insert_id--;
-			// 	}
-			// }
-
-			// insert referrer stats
-			// $values = array();
-			// foreach ( $referrer_stats as $referrer_url => $r ) {
-			// 	array_push( $values, $date, $r['id'], $r['visitors'], $r['pageviews'] );
-			// }
-			// $placeholders = rtrim( str_repeat( '(%s,%d,%d,%d),', count( $referrer_stats ) ), ',' );
-			// $sql          = $wpdb->prepare( "INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values );
-			// $wpdb->query( $sql );
+			
 		}
 
 		//$this->update_realtime_pageview_count( $site_stats['pageviews'] );
