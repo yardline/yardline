@@ -8,7 +8,8 @@ const config = {
 	entry: {
 		// frontend and admin will replace the [name] portion of the output config below.
 		frontend: './src/js/front/front-index.js',
-		admin: './src/js/admin/admin-index.js'
+		admin: './src/js/admin/admin-index.js',
+		goals: './src/js/admin/admin-goals.js'
 	},
 
 	// Create the output files.

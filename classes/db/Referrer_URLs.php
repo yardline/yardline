@@ -3,6 +3,7 @@ namespace Yardline\DB;
 
 use function Yardline\get_array_var;
 use function Yardline\get_db;
+use function Yardline\dev_log;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -77,12 +78,25 @@ class Referrer_URLs extends DB {
 		);
 	}
 
-	public function get_by_urls( array $urls) {
+	public function get_by_urls($urls) {
 		global $wpdb;
+		//dev_log('referrer get by urls');
 		$placeholders  = rtrim( str_repeat( '%s,', count( $urls ) ), ',' );
-		$sql = $wpdb->prepare( "SELECT id, path FROM {$wpdb->prefix}yl_referrer_urls r WHERE r.path IN({$placeholders})", $urls );
+		$sql = $wpdb->prepare( "SELECT id, url FROM {$wpdb->prefix}yl_referrer_urls r WHERE r.url IN({$placeholders})", $urls );
+		//dev_log($sql);
+		//dev_log($wpdb->get_results( $sql ));
 		return $wpdb->get_results( $sql );
 	}
+
+	public function add_urls( $urls ) {
+        global $wpdb;
+		foreach( $urls as $url ) {
+			$this->add([
+				'url'		=> $url,
+			]);
+		}
+
+    }
 
 	/**
 	 * Add a activity
@@ -90,13 +104,12 @@ class Referrer_URLs extends DB {
 	 * @access  public
 	 */
 	public function add( $data = array() ) {
-
 		$args = wp_parse_args(
 			$data,
 			$this->get_column_defaults()
 		);
 
-		if ( empty( $args['date'] ) ) {
+		if ( empty( $args['url'] ) ) {
 			return false;
 		}
 

@@ -6,6 +6,7 @@ use function Yardline\dev_log;
 use Yardline\Hit_Tracker;
 use Yardline\Site_Stats;
 use Yardline\Page_Views;
+use Yardline\Referrers;
 /**
  * Class API_V1
  */
@@ -53,7 +54,6 @@ class API_V1 {
 				array( '_wpnonce' => array(
 					'required'          => true,
 					'validate_callback' => function ( $value ) {
-                        dev_log('yo');
 						return wp_verify_nonce( $value, 'wp_rest' );
 					}
 				) ), $params )
@@ -105,6 +105,26 @@ class API_V1 {
 				},
 			]
 		);
+
+		register_rest_route(
+			self::route,
+			'/referrers',
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_referrers' ],
+				'args'                => [
+					'start_date' => [
+						'validate_callback' => [ $this, 'validate_date_param' ],
+					],
+					'end_date'   => [
+						'validate_callback' => [ $this, 'validate_date_param' ],
+					],
+				],
+				'permission_callback' => function () {
+					return true;
+				},
+			]
+		);
 	}
 
 	/**
@@ -124,15 +144,15 @@ class API_V1 {
 	 */
 	public function hit( \WP_REST_Request $request ) {
 		
-		//dev_log('API hit fired');
+		dev_log('API hit fired');
 		// Get Params
 		$url        = $request->get_param( 'url' );
 		$user_agent = $request->get_param( 'ua' );
 		$new_visitor = $request->get_param( 'nv' );
 		$unique_pageview = $request->get_param( 'up' );
 		$referrer = $request->get_param( 'r' );
-		
-		if ( empty( $url ) || $unique_pageview == 0 ) {
+		//dev_log($url);
+		if ( empty( $url ) ) {
 			return;
 		}
 		
@@ -192,6 +212,15 @@ class API_V1 {
         $end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		
 		return $page_views->get_for_date_range( $start_date, $end_date );;
+	}
+
+	public function get_referrers( \WP_REST_Request $request ) {
+		$referrers = new Referrers();
+		$params     = $request->get_query_params();
+		$start_date = isset( $params['start_date'] ) ? $params['start_date'] : gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+        $end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+		
+		return $referrers->get_for_date_range( $start_date, $end_date );;
 	}
     
     public function validate_date_param( $param, $one, $two ) {

@@ -2,16 +2,16 @@ import React from 'react';
 import Marquee from './Marquee.js';
 import PageViews from './PageViews.js';
 import Visitors from './Visitors.js';
-import Refers from './Refers.js';
+import Referrers from './Referrers.js';
 import Range from './Range.js';
 import { format } from 'date-fns';
 
 class ScoreBoard extends React.Component {
     formatDate(date){
         let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        return year+'-'+month+'-'+day;
+        let month =  '0' + (date.getMonth() + 1);
+        let day = '0' + date.getDate();
+        return year+'-'+month.slice(-2)+'-'+day.slice(-2);
     };
     state = {
         range: {
@@ -21,69 +21,29 @@ class ScoreBoard extends React.Component {
             endDate: new Date( Date.now() - 1 * 24 * 60 * 60 * 1000 ),
             key: 'selection',
         },
-        pageViewsData : [
-            {
-              name: '/', pv: 4400,
-            },
-            {
-                name: '/shop', pv: 3908,
-            },
-            {
-              name: '/blog', pv: 1398,
-            },
-            {
-              name: '/about', pv: 800,
-            },
-           
-            {
-              name: '/contact', pv: 780,
-            },
-            {
-              name: '/team', pv: 500,
-            },
-            
-          ],
-          refersData: [
-            {
-                name: 'facebook.com', pv: 9800,
-              },
-            {
-                name: 'twitter.com', pv: 2400,
-              },
-              {
-                name: 'google.com', pv: 1398,
-              },
-              {
-                name: 'Page 4', pv: 800,
-              },
-          ],
-          statsData : [],
-          marqueeData : {
-            visitors: {
-                name:'Visitors',
-                number: 4500,
-                percent: 2,
-            },
-            pageviews: {
-                name:'Pageviews',
-                number: 230,
-                percent: 1,
-            },
-            numberOfOrders: {
-                name: 'Number of Sales',
-                number: 28,
-                percent: -3
-            },
-            formSubmissions: {
-                name: 'Form Submissions',
-                number: 18,
-                percent: 8
-            }
-          }
+        pageViewsData : [],
+        // referrersData: [
+        //     {
+        //         name: 'facebook.com', pv: 9800,
+        //       },
+        //     {
+        //         name: 'twitter.com', pv: 2400,
+        //       },
+        //       {
+        //         name: 'google.com', pv: 1398,
+        //       },
+        //       {
+        //         name: 'Page 4', pv: 800,
+        //       },
+        //   ],
+        referrersData : [],
+        statsData : [],
+        marqueeData : {}
     }
     setRange = (range) => {
         this.getStats(range); 
         this.getPageViews(range);
+        this.getReferrers(range);
         this.setState({range});  
         
     }
@@ -96,7 +56,7 @@ class ScoreBoard extends React.Component {
         fetch(queryStr)
           .then(response => response.json())
           .then(data => this.setState( {
-              statsData: data,
+              statsData: this.fillDates(data),
               marqueeData: {
                   visitors: {
                 name:'Visitors',
@@ -108,6 +68,11 @@ class ScoreBoard extends React.Component {
                 number: this.sumStats(data).pageviews,
                 percent: 2,
             },
+            bouncerate: {
+              name: 'Bounce Rate',
+              number: '24%',
+              percent: 0
+            }
         }
         }))
           
@@ -126,6 +91,19 @@ class ScoreBoard extends React.Component {
           }))
     }
 
+    getReferrers = (range) => {
+      let queryStr = ''
+        queryStr = this.props.restURL + 'yardline/v1/referrers?'
+        queryStr += 'start_date=' + this.formatDate(range.startDate)
+        queryStr += '&end_date=' + this.formatDate(range.endDate)
+       
+        fetch(queryStr)
+          .then(response => response.json())
+          .then(data => this.setState( {
+            referrersData: data
+          }))
+    }
+
     sumStats = (data) => {
         let statsSum = data;
         let visitors = 0;
@@ -141,10 +119,38 @@ class ScoreBoard extends React.Component {
        
         return { visitors: visitors, pageviews: pageviews };
     }
+
+    // Combine array of dates for the entire range with the data from the API
+    fillDates = (data) => {
+      
+      let daysArray = this.getDaysArray(this.state.range.startDate, this.state.range.endDate)
+      let returnArray = []
+      daysArray.forEach(function (day) {
+        if( data.findIndex( item => item.date == day.date) >=0) {
+          
+          returnArray.push(data[data.findIndex( item => item.date == day.date)])
+        } else {
+          returnArray.push(day)
+        }
+      });
+      return returnArray;
+    }
+    //build array for all days in the date range
+    getDaysArray = (start, end) => {
+      for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
+          arr.push({
+            date: this.formatDate(new Date(dt)),
+            visitors : 0,
+            pageviews : 0
+          });
+      }
+      return arr;
+  };
     
     componentDidMount() {
         this.getStats(this.state.range)
         this.getPageViews(this.state.range)
+        this.getReferrers(this.state.range)
         
     }
     render() {
@@ -159,7 +165,7 @@ class ScoreBoard extends React.Component {
                 <Visitors statsData={this.state.statsData}/>
                 <div className="scoreboard-row">
                     <PageViews pageViewsData={this.state.pageViewsData}/>
-                    <Refers refersData={this.state.refersData}/>
+                    <Referrers referrersData={this.state.referrersData}/>
                 </div> 
                 
             </div>

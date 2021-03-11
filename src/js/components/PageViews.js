@@ -20,7 +20,7 @@ class PageViews extends React.Component {
                    
                     <XAxis hide="true" type="number" />
                     <YAxis hide="true" dataKey="path" type="category"   />
-                    <Tooltip active={true}/>
+                    {/* <Tooltip active={true}/> */}
                   
                     <Bar  name="Visitors" dataKey="pageviews" stackId="a" fill="rgba(236,68,68,0.5)" >
                         <LabelList dataKey="path" position="insideLeft" />

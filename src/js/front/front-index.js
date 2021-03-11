@@ -7,9 +7,11 @@ window.addEventListener('load', function () {
     return v ? v[2] : '';
   }
 
-  function setCookie(name, value, days) {
+  function setCookie(name, value, expires) {
     var d = new Date;
-    d.setTime(d.getTime() + 24*60*60*1000*days);
+    //fix cookie expire\
+
+    d.setTime(expires);
     document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
   }
 
@@ -38,7 +40,6 @@ window.addEventListener('load', function () {
     const pagesViewed = cookie.split(',').filter(function (id) {
       return id !== ''
     })
-    console.log(pagesViewed);
     let isNewVisitor = cookie.length === 0
     let pageName = encodeURIComponent(window.location.pathname);
     let isUniquePageview = pagesViewed.indexOf(pageName) === -1
@@ -46,17 +47,25 @@ window.addEventListener('load', function () {
 
     // add referrer if not from same-site & try to detect returning visitors from referrer URL
     if (typeof (document.referrer) === 'string' && document.referrer !== '') {
+      // referred by same-site, so not a new visitor
       if (document.referrer.indexOf(pageName) === 0) {
-        isNewVisitor = false // referred by same-site, so not a new visitor
-
-        if (document.referrer === window.location.href) {
-          isUniquePageview = false // referred by same-url, so not a unique pageview
-        }
-      } else {
-        referrer = document.referrer // referred by external site, so send referrer URL to be stored
+        isNewVisitor = false 
       }
+     
+      // referred by same-url, so not a unique pageview
+      // if (document.referrer === window.location.href) {
+      //     isUniquePageview = false 
+      // } else {
+      //     // referred by external site, so send referrer URL to be stored
+      //     referrer = document.referrer 
+      //    // referrer = google.com
+      // }
+      
     }
-  
+    const rando_urls = ["google.com", "facebook.com", "twitter.com", "test1.com", "test2.com", "test3.com", "test4.com"];
+
+const random = Math.floor(Math.random() * rando_urls.length);
+    referrer = rando_urls[random]
 
     //cookie
     if (yardlineObject.useCookie) {
@@ -64,23 +73,26 @@ window.addEventListener('load', function () {
         pagesViewed.push(pageName)
       }
       const expires = new Date()
-      expires.setHours(expires.getHours() + 6)
-      setCookie('yardline_pages_viewed', pagesViewed.join(','), 1)
+      // expires.setHours(expires.getHours() + 6)\setDate(tomorrow.getDate() + 1)
+      expires.setDate(expires.getDate() + 1)
+      expires.setUTCHours(0,0,0,0);
+      //console.log(expires);
+      setCookie('yardline_pages_viewed', pagesViewed.join(','), +expires)
     }
-   
+    
     // build tracker URL
     let queryStr = ''
    
-    console.log(yardlineObject.restURL);
+   
     queryStr += '_=' + Math.floor(Date.now() / 1000)
     queryStr += '&_wpnonce=' + yardlineObject.wpnonce + '&yardline_hit_rest=yes'
     queryStr += '&ua=' + navigator.userAgent 
     queryStr += '&url=' + window.location.href 
     queryStr += '&nv=' + (isNewVisitor ? '1' : '0')
     queryStr += '&up=' + (isUniquePageview ? '1' : '0')
-   queryStr += '&r=' + encodeURIComponent(referrer)
-   // queryStr += '&referred=' + document.referrer
+    queryStr += '&r=' + encodeURIComponent(referrer)
    
+  
     Yardline_http.open('GET', yardlineObject.restURL + 'yardline/v1/hit' + (yardlineObject.restURL.includes("?") ? '&' : '?') + queryStr, true);
     Yardline_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     Yardline_http.send(null);
@@ -92,10 +104,6 @@ window.addEventListener('load', function () {
  });
 
 
-//  console.log(yardlineObject.restURL + 'yardline/v1/hit' + (yardlineObject.restURL.includes("?") ? '&' : '?') + '_=' + Math.floor(Date.now() / 1000) + '&_wpnonce=' + yardlineObject.wpnonce + '&yardline_hit_rest=yes&ua=' + navigator.userAgent + '&url=' + window.location.href + '&referred=' + document.referrer, true);
-//     var WP_Statistics_http = new XMLHttpRequest();
-//     WP_Statistics_http.open('GET', yardlineObject.restURL + 'yardline/v1/hit' + (yardlineObject.restURL.includes("?") ? '&' : '?') + '_=' + Math.floor(Date.now() / 1000) + '&_wpnonce=' + yardlineObject.wpnonce + '&yardline_hit_rest=yes&ua=' + navigator.userAgent + '&url=' + window.location.href + '&referred=' + document.referrer, true);
-//     WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-//     WP_Statistics_http.send(null);
+
 
   

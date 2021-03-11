@@ -188,6 +188,7 @@ class Score_Board_Page extends Admin_Page {
 
 	public function scripts(){
 		wp_enqueue_script( self::SCRIPT_NAME, YARDLINE_ASSETS_URL . 'js/admin.js' , array(), YARDLINE_VERSION, true );
+		
 		wp_localize_script( self::SCRIPT_NAME, 'yardlineAdmin', [
             'restURL' => get_rest_url(),
 			//'wpnonce' => wp_create_nonce( 'yardline_admin' ),

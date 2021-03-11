@@ -67,6 +67,7 @@ class Referrer_Stats extends DB {
 	public function get_columns() {
 		return array(
 			'date'          => '%s',
+			'id'			=> '%d',
 			'visitors'      => (int) '%d',
 			'pageviews'     => (int) '%d',
 		);
@@ -80,6 +81,7 @@ class Referrer_Stats extends DB {
 	public function get_column_defaults() {
 		return array(
 			'date'          => date( 'Y-m-d'),
+			'id'			=> 0,
             'visitors'      => 0,
             'pageviews'     => 0,
 		);
@@ -96,10 +98,11 @@ class Referrer_Stats extends DB {
 		global $wpdb;
 		$data = wp_parse_args( $data, $this->get_column_defaults() );
 		$sql = $wpdb->prepare( 
-			"INSERT INTO {$wpdb->prefix}yl_referrer_stats(date, visitors, pageviews) 
-			VALUES(%s, %d, %d) 
+			"INSERT INTO {$wpdb->prefix}yl_referrer_stats(date, id, visitors, pageviews) 
+			VALUES(%s, %d, %d, %d) 
 			ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", 
-			array( $data['date'], $data['visitors'], $data['pageviews'] ) );
+			array( $data['date'], $data['url_id'], $data['visitors'], $data['pageviews'] ) );
+			
 		$wpdb->query( $sql );
 	}
 
@@ -140,10 +143,11 @@ class Referrer_Stats extends DB {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$sql = "CREATE TABLE " . $this->table_name . " (
-            date DATE NOT NULL,
-            visitors MEDIUMINT UNSIGNED NOT NULL,
-			pageviews MEDIUMINT UNSIGNED NOT NULL,
-			PRIMARY KEY (date)
+			date DATE NOT NULL,
+            id BIGINT(20) UNSIGNED NOT NULL,
+	        visitors MEDIUMINT UNSIGNED NOT NULL,
+	        pageviews MEDIUMINT UNSIGNED NOT NULL,
+	        PRIMARY KEY (date, id)
 		) {$this->get_charset_collate()};";
 
 		dbDelta( $sql );

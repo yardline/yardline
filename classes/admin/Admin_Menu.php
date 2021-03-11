@@ -32,6 +32,7 @@ class Admin_Menu {
 	 */
 	public function init_admin() {
 		$this->score_board  = new Score_Board_Page();
+		$this->goals = new Goals_Page();
 	    $this->settings  = new Settings_Page();
 	
 		do_action( 'yardline/admin/init', $this );

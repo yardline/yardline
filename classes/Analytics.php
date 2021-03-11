@@ -19,7 +19,7 @@ class Analytics {
 
     public function enqueue_frontend() {
         $hit_nonce = wp_create_nonce( 'wp_rest' );
-        dev_log($hit_nonce);
+        //($hit_nonce);
         wp_enqueue_script( self::SCRIPT_NAME, YARDLINE_ASSETS_URL . 'js/frontend.js', array(), YARDLINE_VERSION, true );
         wp_localize_script( self::SCRIPT_NAME, 'yardlineObject', [
             'restURL' => get_rest_url(),

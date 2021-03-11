@@ -30,7 +30,6 @@ class Hit_Collector {
     public function collect() {
         global $wpdb;
         $filename = Hit_Tracker::get_buffer_filename();
-       
 		if ( ! file_exists( $filename ) ) {
 			return;
         }
@@ -72,7 +71,7 @@ class Hit_Collector {
 			$new_visitor        = (int) $p[1];
 			$unique_pageview    = (int) $p[2];
 			$referrer_url       = trim( $p[3] );
-            
+			
 			$site_stats['pageviews'] += 1;
 			if ( $new_visitor ) {
 				$site_stats['visitors'] += 1;
@@ -91,7 +90,7 @@ class Hit_Collector {
 
 				$post_stats[ $path ]['pageviews'] += 1;
 
-				if ( $new_visitor ) {
+				if ( $unique_pageview) {
 					$post_stats[ $path ]['visitors'] += 1;
 				}
 			}
@@ -114,6 +113,8 @@ class Hit_Collector {
 					$referrer_stats[ $referrer_url ]['visitors'] += 1;
 				}
 			}
+			//var_dump($referrer_stats);
+			//var_dump('Referrer URL: ' . $referrer_url);
 		}
 
 		// close file & remove it from filesystem
@@ -161,40 +162,47 @@ class Hit_Collector {
 					$post_stats[ $url ]['path_id'] = $last_insert_id--;
 				}
 			}
+			
 			$page_stats = new Page_Stats();
 			$page_stats->add_stats( $post_stats );
 		}
-
+		//dev_log('Referrer Stats');
+		//dev_log($referrer_stats);
 		if ( count( $referrer_stats ) > 0 ) {
 			 //select urls from page paths table
 			 $referrers = new Referrers();
 			//create a method in referrers that will get existing urls from the referrer URL table
+			dev_log('Existing');
 			 $exisiting_urls = $referrers->get_by_urls( array_keys( $referrer_stats ) );
-			   
+			dev_log($existing_urls); 
 		   
 			 if ( $exisiting_urls ) {
 				 //add path id to $post_stats;
 				 foreach( $exisiting_urls as $exisiting_url) {
-					$post_stats[ $exisiting_url->url ]['url_id'] = $exisiting_url->id;
+					$referrer_stats[ $exisiting_url->url ]['url_id'] = $exisiting_url->id;
 				 } 
 			 }
 			 $new_urls = [];
+			 dev_log("Referrer");
+			 dev_log($referrer_stats);
 			 foreach ($referrer_stats as $url => $referrer_stat) {
 				 if ( ! isset( $referrer_stat['url_id'] ) ) {
 					 $new_urls[] = $url;
 				 }
 			 }
- 
+			 dev_log("new Urls");
+			 dev_log($new_urls);
 			 if ( count( $new_urls ) > 0 ) {
-  
-				 $referrers->add_urls( $new_urlss );
-				 $values       = $new_paths;
+				dev_log( 'inside new urls');
+				 $referrers->add_urls( $new_urls );
+				 $values       = $new_urls;
 				 $last_insert_id = $wpdb->insert_id;
 				 foreach ( array_reverse( $values ) as $url ) {
 					 $referrer_stats[ $url ]['url_id'] = $last_insert_id--;
 				 }
 			 }
-			 //$page_stats = new Page_Stats();
+			 dev_log('referrer stats');
+			dev_log($referrer_stats);
 			 $referrers->add_stats( $referrer_stats );
 			
 
@@ -223,7 +231,9 @@ class Hit_Collector {
 				return true;
 			}
 		}
-
+		/*yardline_ignore_referrer_url filter
+		* Use this if you would like to 
+		*/
 		return apply_filters( 'yardline_ignore_referrer_url', false, $url );
 	}
 
