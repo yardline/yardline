@@ -41,7 +41,7 @@ class Plugin {
      *
      * Holds the plugin databases.
      *
-     * @since 2.0.0
+     * @since 1.0
      * @access public
      *
      * @var DB_Manager
@@ -93,7 +93,7 @@ class Plugin {
      *
      * Ensures only one instance of the plugin class is loaded or can be loaded.
      *
-     * @since 1.0.0
+     * @since 1.0
      * @access public
      * @static
      *
@@ -118,7 +118,7 @@ class Plugin {
      *
      * Initializing Yardline plugin.
      *
-     * @since 1.0.0
+     * @since 1.0
      * @access private
      */
     private function __construct() {
@@ -133,7 +133,7 @@ class Plugin {
      /**
      * Init components.
      *
-     * @since 1.0.0
+     * @since 1.0
      * @access private
      */
     private function init_components() {
@@ -147,7 +147,8 @@ class Plugin {
 
         if ( is_admin() ) {
             $this->admin   = new Admin_Menu();
-            $this->dashboard = new Dashboard_Widget();
+            //dashboard widget - decide what is going here
+           $this->dashboard = new Dashboard_Widget();
         }
         
         $this->installer    = new Main_Installer();
@@ -158,7 +159,6 @@ class Plugin {
      */
     private function includes() {
         require  YARDLINE_PATH . '/includes/functions.php';
-
     }
 
 }

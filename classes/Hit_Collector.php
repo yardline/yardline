@@ -166,15 +166,14 @@ class Hit_Collector {
 			$page_stats = new Page_Stats();
 			$page_stats->add_stats( $post_stats );
 		}
-		//dev_log('Referrer Stats');
-		//dev_log($referrer_stats);
+		
 		if ( count( $referrer_stats ) > 0 ) {
 			 //select urls from page paths table
 			 $referrers = new Referrers();
 			//create a method in referrers that will get existing urls from the referrer URL table
-			dev_log('Existing');
+			
 			 $exisiting_urls = $referrers->get_by_urls( array_keys( $referrer_stats ) );
-			dev_log($existing_urls); 
+			
 		   
 			 if ( $exisiting_urls ) {
 				 //add path id to $post_stats;
@@ -183,17 +182,15 @@ class Hit_Collector {
 				 } 
 			 }
 			 $new_urls = [];
-			 dev_log("Referrer");
-			 dev_log($referrer_stats);
+			
 			 foreach ($referrer_stats as $url => $referrer_stat) {
 				 if ( ! isset( $referrer_stat['url_id'] ) ) {
 					 $new_urls[] = $url;
 				 }
 			 }
-			 dev_log("new Urls");
-			 dev_log($new_urls);
+			
 			 if ( count( $new_urls ) > 0 ) {
-				dev_log( 'inside new urls');
+				
 				 $referrers->add_urls( $new_urls );
 				 $values       = $new_urls;
 				 $last_insert_id = $wpdb->insert_id;
@@ -201,14 +198,8 @@ class Hit_Collector {
 					 $referrer_stats[ $url ]['url_id'] = $last_insert_id--;
 				 }
 			 }
-			 dev_log('referrer stats');
-			dev_log($referrer_stats);
+			 
 			 $referrers->add_stats( $referrer_stats );
-			
-
-			
-			
-
 			
 		}
 
@@ -232,13 +223,13 @@ class Hit_Collector {
 			}
 		}
 		/*yardline_ignore_referrer_url filter
-		* Use this if you would like to 
+		* Use this if to add site specific urls to block
 		*/
 		return apply_filters( 'yardline_ignore_referrer_url', false, $url );
 	}
 
 	public function clean_url( $url ) {
-		// remove # from URL
+		// remove # amd after from URL
 		$pos = strpos( $url, '#' );
 		if ( $pos !== false ) {
 			$url = substr( $url, 0, $pos );
@@ -252,7 +243,7 @@ class Hit_Collector {
 			$params = array();
 			parse_str( $query_str, $params );
 
-			// strip all non-allowed params from url
+			// strip all non-allowed params from url 
 			$allowed_params = array( 'page_id', 'p', 'cat', 'product' );
 			$new_params    = array_intersect_key( $params, array_flip( $allowed_params ) );
 			$new_query_str = http_build_query( $new_params );

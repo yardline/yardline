@@ -52,20 +52,19 @@ window.addEventListener('load', function () {
         isNewVisitor = false 
       }
      
-      // referred by same-url, so not a unique pageview
-      // if (document.referrer === window.location.href) {
-      //     isUniquePageview = false 
-      // } else {
-      //     // referred by external site, so send referrer URL to be stored
-      //     referrer = document.referrer 
-      //    // referrer = google.com
-      // }
+     // referred by same-url, so not a unique pageview
+      if (document.referrer === window.location.href) {
+          isUniquePageview = false 
+      } else {
+          //  referred by external site, so send referrer URL to be stored
+          referrer = document.referrer; 
+      }
       
     }
-    const rando_urls = ["google.com", "facebook.com", "twitter.com", "test1.com", "test2.com", "test3.com", "test4.com"];
+//     const rando_urls = ["google.com", "facebook.com", "twitter.com", "test1.com", "test2.com", "test3.com", "test4.com"];
 
-const random = Math.floor(Math.random() * rando_urls.length);
-    referrer = rando_urls[random]
+// const random = Math.floor(Math.random() * rando_urls.length);
+//     referrer = rando_urls[random]
 
     //cookie
     if (yardlineObject.useCookie) {

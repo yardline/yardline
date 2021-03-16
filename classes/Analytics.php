@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * 
- * @package Yardline\
+ * @package Yardline
  */
 class Analytics {
 
