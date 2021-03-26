@@ -255,8 +255,7 @@ function key_to_words( $key ) {
 	return ucwords( preg_replace( '/[-_]/', ' ', $key ) );
 }
 
-function dev_log($message)
-{
+function dev_log($message) {
 	$dev_log = dirname(__FILE__) . '/dev_log.txt';
 	if (is_array($message)) {
 		$message = print_r($message, true);
