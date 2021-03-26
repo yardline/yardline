@@ -1,5 +1,5 @@
 <?php
-namespace Yardline\Api\V1;
+namespace Yardline\Api;
 
 use Yardline\Site_Stat;
 use Yardline\Hit_Tracker;
@@ -18,8 +18,8 @@ class API_V1 {
 
 	public function __construct() {
 		$this->register_routes();
-
 	}
+
 	/**
 	 * List Of Required Params
 	 *

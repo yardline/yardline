@@ -1,7 +1,6 @@
 <?php
 namespace Yardline;
 
-use function Yardline\dev_log;
 /**
  * Hit Tracker.
  *
@@ -23,7 +22,6 @@ class Hit_Tracker {
     }
     
     public function track_hit( $stats ) {
-        dev_log('hit track');
         $path = $stats['url'] ?: '';
         $is_new_visitor = $stats['visitors'];
         $is_unique_pageview = $stats['pageviews'];

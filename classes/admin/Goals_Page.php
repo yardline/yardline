@@ -29,11 +29,8 @@ class Goals_Page extends Admin_Page {
 	// UNUSED FUNCTIONS
 
     // UNUSED FUNCTIONS
-	protected function add_ajax_actions() {
-	}
+	
 
-	public function help() {
-	}
 
 	// public function scripts() {
 	// 	wp_enqueue_style( 'yardline-admin' );

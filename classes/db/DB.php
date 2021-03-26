@@ -67,7 +67,7 @@ abstract class DB {
 		$this->version     = $this->get_db_version();
 		$this->charset     = $this->get_charset_collate();
 
-		$this->add_additional_actions();
+		// $this->add_additional_actions();
 
 		/**
 		 * Register the table...
@@ -155,12 +155,6 @@ abstract class DB {
 		global $wpdb;
 
 		return $wpdb->collate;
-	}
-
-	/**
-	 * Option to add additional actions following construct.
-	 */
-	protected function add_additional_actions() {
 	}
 
 	/**

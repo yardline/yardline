@@ -2,8 +2,6 @@
 namespace Yardline;
 
 use Yardline\DB\Page_Paths as Page_Paths_DB;
-use function Yardline\dev_log;
-
 
 class Page_Paths {
 

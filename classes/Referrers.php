@@ -16,21 +16,19 @@ class Referrers {
     }
 
     public function get_by_urls( $urls ) {
-       // dev_log('urls');
-       // dev_log($this->url_db->get_by_urls( $urls ));
+       
         return $this->url_db->get_by_urls( $urls );
     }
 
     public function add_stats( $views ) {
-       // dev_log( 'views');
-        //dev_log($views );
+       
         foreach( $views as $view ) {
             $this->stat_db->add_on_duplicate( $view );
         }
     }
 
     public function add_urls( $urls ) {
-        dev_log('add urls referrers');
+       
         return $this->url_db->add_urls( $urls );
     }
 

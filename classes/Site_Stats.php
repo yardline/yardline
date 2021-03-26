@@ -8,6 +8,7 @@ class Site_Stats {
 	public $db;
 	
 	public function __construct() {
+	
 		$this->db = new Site_Stats_DB();
 	}
 

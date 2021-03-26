@@ -2,7 +2,7 @@
 namespace Yardline;
 
 use Yardline\DB\Page_Stats as Page_Stats_DB;
-use function Yardline\dev_log;
+
 class Page_Stats { 
 
     public $db;

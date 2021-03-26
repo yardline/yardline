@@ -2,7 +2,6 @@
 
 namespace Yardline\Admin;
 
-use Yardline\Abstracts\Supports_Errors;
 use Yardline\Plugin;
 use function Yardline\get_request_var;
 use function Yardline\get_url_var;
@@ -15,8 +14,6 @@ use function Yardline\isset_not_empty;
  * This is a base class for all admin pages
  *
  * @since       File available since Release 1.0
- * @subpackage  Admin
- * @package     Admin
  */
 
 // Exit if accessed directly
@@ -24,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class Admin_Page extends Supports_Errors {
+abstract class Admin_Page {
 
 	
 	protected $screen_id;
@@ -73,13 +70,6 @@ abstract class Admin_Page extends Supports_Errors {
 	protected function get_parent_slug() {
 		return 'yardline';
 	}
-
-	/**
-	 * Add Ajax actions...
-	 *
-	 * @return mixed
-	 */
-	abstract protected function add_ajax_actions();
 
 	/**
 	 * Adds additional actions.
@@ -176,8 +166,8 @@ abstract class Admin_Page extends Supports_Errors {
 
 		$this->screen_id = $page;
 
-		add_action( "load-" . $page, [ $this, 'help' ] );
-		add_action( "load-" . $page, [ $this, 'screen_options' ] );
+		//add_action( "load-" . $page, [ $this, 'help' ] );
+		//add_action( "load-" . $page, [ $this, 'screen_options' ] );
 	}
 
 	/**
@@ -225,13 +215,6 @@ abstract class Admin_Page extends Supports_Errors {
 	public function set_screen_option_per_page( $keep, $option, $value ) {
 		return absint( $value );
 	}
-
-	/**
-	 * Add any help items
-	 *
-	 * @return mixed
-	 */
-	abstract public function help();
 
 	/**
 	 * Get the affected items on this page

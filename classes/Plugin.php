@@ -122,6 +122,7 @@ class Plugin {
      * @access private
      */
     private function __construct() {
+        $this->register_autoloader();
 
         if ( did_action( 'plugins_loaded' ) ){
             $this->init();
@@ -137,6 +138,7 @@ class Plugin {
      * @access private
      */
     private function init_components() {
+
         $this->settings     = new Settings();
         $this->analytics = new Analytics();
         $this->api = new Api_Loader();
@@ -159,6 +161,19 @@ class Plugin {
      */
     private function includes() {
         require  YARDLINE_PATH . '/includes/functions.php';
+    }
+
+    /**
+     * Register autoloader.
+     *
+     * Groundhogg autoloader loads all the classes needed to run the plugin.
+     *
+     * @since 1.6.0
+     * @access private
+     */
+    private function register_autoloader() {
+        require YARDLINE_PATH . 'includes/autoloader.php';
+        Autoloader::run();
     }
 
 }

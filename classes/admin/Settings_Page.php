@@ -19,28 +19,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin Settings
  *
- * This  is your fairly typical settigns page.
- * It's a BIT of a mess, but I digress.
- *
- * @since       File available since Release 0.1
- * @subpackage  Admin/Settings
- * @author      Adrian Tobey <info@groundhogg.io>
- * @copyright   Copyright (c) 2018, Groundhogg Inc.
- * @license     https://opensource.org/licenses/GPL-3.0 GNU Public License v3
- * @package     Admin
  */
 class Settings_Page extends Admin_Page {
 
-	// UNUSED FUNCTIONS
-	protected function add_ajax_actions() {
-	}
-
-	public function help() {
-	}
+	
 
 	public function scripts() {
 		wp_enqueue_style( 'yardline-admin' );
-		//wp_enqueue_style( 'groundhogg-admin-extensions' );
 	}
 
 	/**

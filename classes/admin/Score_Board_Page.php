@@ -28,14 +28,12 @@ class Score_Board_Page extends Admin_Page {
 	// UNUSED FUNCTIONS
 
 	const SCRIPT_NAME = 'yl_admin_script';
-	public function help() {
-	}
+	
 
 	public function screen_options() {
 	}
 
-	protected function add_ajax_actions() {
-	}
+	
 
 	public function process_action() {
 	    return;
@@ -74,7 +72,7 @@ class Score_Board_Page extends Admin_Page {
 	 * @return string
 	 */
 	public function get_cap() {
-		return 'view_contacts';
+		return 'activate_plugins';
 	}
 
 	/**
@@ -108,7 +106,7 @@ class Score_Board_Page extends Admin_Page {
 		$page = add_menu_page(
 			'Yardline',
 			$name,
-			'view_contacts',
+			$this->get_cap(),
 			'yardline',
 			[ $this, 'page' ],
 			'dashicons-chart-bar',
@@ -120,9 +118,9 @@ class Score_Board_Page extends Admin_Page {
 			'yardline',
 			_x( 'Score Board', 'page_title', 'yardline' ),
 			_x( 'Score Board', 'page_title', 'yardline' ),
-			'view_contacts',
+			$this->get_cap(),
 			'yardline',
-			array( $this, 'page' )
+			[ $this, 'page' ]
 		);
 
 		$this->screen_id = $page;
@@ -132,7 +130,7 @@ class Score_Board_Page extends Admin_Page {
 			remove_submenu_page( 'yardline', 'yardline' );
 		}
 
-		add_action( "load-" . $page, array( $this, 'help' ) );
+		//add_action( "load-" . $page, array( $this, 'help' ) );
 	}
 
 

@@ -1,8 +1,7 @@
 <?php
-
 namespace Yardline\Api;
-use Yardline\Api\V1\API_V1;
 
+use Yardline\Api\API_V1;
 
 class Api_Loader
 {
@@ -15,14 +14,12 @@ class Api_Loader
     /**
      * Api_Loader constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
         add_action( 'rest_api_init', [ $this, 'load_api' ] );
     }
 
-    public function load_api()
-    {
-        $this->v1 = new API_V1();
+    public function load_api() {  
+        $this->v1 = new API_V1();   
     }
 
 }

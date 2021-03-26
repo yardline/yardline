@@ -3,7 +3,6 @@ namespace Yardline\DB;
 
 use function Yardline\get_array_var;
 use function Yardline\get_db;
-use function Yardline\dev_log;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -12,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Site Stats DB
  *
- * @since       File available since Release 1.0
+ * @since File available since Release 1.0
  *
  */
 class Referrer_URLs extends DB {
@@ -80,11 +79,10 @@ class Referrer_URLs extends DB {
 
 	public function get_by_urls($urls) {
 		global $wpdb;
-		//dev_log('referrer get by urls');
+		
 		$placeholders  = rtrim( str_repeat( '%s,', count( $urls ) ), ',' );
 		$sql = $wpdb->prepare( "SELECT id, url FROM {$wpdb->prefix}yl_referrer_urls r WHERE r.url IN({$placeholders})", $urls );
-		//dev_log($sql);
-		//dev_log($wpdb->get_results( $sql ));
+		
 		return $wpdb->get_results( $sql );
 	}
 

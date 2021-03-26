@@ -3,7 +3,7 @@ namespace Yardline;
 
 use Yardline\DB\Site_Stats;
 use Yardline\Page_Paths;
-use function Yardline\dev_log;
+
 class Hit_Collector {
 
 

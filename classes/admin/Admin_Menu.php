@@ -35,7 +35,6 @@ class Admin_Menu {
 		$this->goals = new Goals_Page();
 	    $this->settings  = new Settings_Page();
 	
-		do_action( 'yardline/admin/init', $this );
 	}
 
 	/**
