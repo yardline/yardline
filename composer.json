@@ -1,9 +1,4 @@
 {
-    "autoload": {
-        "psr-4": {
-            "Yardline\\": "classes/"
-        }
-    },
     "require-dev": {
     },
     "require": {
