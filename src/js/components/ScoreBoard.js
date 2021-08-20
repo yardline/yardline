@@ -22,20 +22,6 @@ class ScoreBoard extends React.Component {
             key: 'selection',
         },
         pageViewsData : [],
-        // referrersData: [
-        //     {
-        //         name: 'facebook.com', pv: 9800,
-        //       },
-        //     {
-        //         name: 'twitter.com', pv: 2400,
-        //       },
-        //       {
-        //         name: 'google.com', pv: 1398,
-        //       },
-        //       {
-        //         name: 'Page 4', pv: 800,
-        //       },
-        //   ],
         referrersData : [],
         statsData : [],
         marqueeData : {}

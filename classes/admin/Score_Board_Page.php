@@ -14,185 +14,197 @@ use function Yardline\white_labeled_name;
 
 
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (! defined('ABSPATH') ) {
+    exit;
 }
 
 /**
  * Show the score board screen.
  *
  * Class Page
+ *
  * @package Yardline\Admin
  */
-class Score_Board_Page extends Admin_Page {
-	// UNUSED FUNCTIONS
+class Score_Board_Page extends Admin_Page
+{
+    // UNUSED FUNCTIONS
 
-	const SCRIPT_NAME = 'yl_admin_script';
-	
-
-	public function screen_options() {
-	}
-
-	
-
-	public function process_action() {
-	    return;
-	}
-
-	/**
-	 * Get the menu order between 1 - 99
-	 *
-	 * @return int
-	 */
-	public function get_priority() {
-		return 1;
-	}
-
-	/**
-	 * Get the page slug
-	 *
-	 * @return string
-	 */
-	public function get_slug() {
-		return 'yardline';
-	}
-
-	/**
-	 * Get the menu name
-	 *
-	 * @return string
-	 */
-	public function get_name() {
-		return apply_filters( 'yardline/admin/scoreboard/name', 'Yardline' );
-	}
-
-	/**
-	 * The required minimum capability required to load the page
-	 *
-	 * @return string
-	 */
-	public function get_cap() {
-		return 'activate_plugins';
-	}
-
-	/**
-	 * Get the item type for this page
-	 *
-	 * @return mixed
-	 */
-	public function get_item_type() {
-		return null;
-	}
-
-	/**
-	 * Adds additional actions.
-	 *
-	 * @return void
-	 */
-	protected function add_additional_actions() {
-	}
-
-	/**
-	 * Add the page
-	 */
-	public function register() {
-
-		if ( is_white_labeled() ) {
-			$name = white_labeled_name();
-		} else {
-			$name = 'Yardline';
-		}
-
-		$page = add_menu_page(
-			'Yardline',
-			$name,
-			$this->get_cap(),
-			'yardline',
-			[ $this, 'page' ],
-			'dashicons-chart-bar',
-			2
-
-		);
-
-		$sub_page = add_submenu_page(
-			'yardline',
-			_x( 'Score Board', 'page_title', 'yardline' ),
-			_x( 'Score Board', 'page_title', 'yardline' ),
-			$this->get_cap(),
-			'yardline',
-			[ $this, 'page' ]
-		);
-
-		$this->screen_id = $page;
-
-		/* White label compat */
-		if ( is_white_labeled() ) {
-			remove_submenu_page( 'yardline', 'yardline' );
-		}
-
-		//add_action( "load-" . $page, array( $this, 'help' ) );
-	}
+    const SCRIPT_NAME = 'yl_admin_script';
+    
 
 
-	/**
-	 * Display the title and dependent action include the appropriate page content
-	 */
-	public function page() {
+    
 
-        do_action( "yardline/admin/{$this->get_slug()}/before" );
+    public function process_action()
+    {
+        return;
+    }
+
+    /**
+     * Get the menu order between 1 - 99
+     *
+     * @return int
+     */
+    public function get_priority()
+    {
+        return 1;
+    }
+
+    /**
+     * Get the page slug
+     *
+     * @return string
+     */
+    public function get_slug()
+    {
+        return 'yardline';
+    }
+
+    /**
+     * Get the menu name
+     *
+     * @return string
+     */
+    public function get_name()
+    {
+        return apply_filters('yardline/admin/scoreboard/name', 'Yardline');
+    }
+
+    /**
+     * The required minimum capability required to load the page
+     *
+     * @return string
+     */
+    public function get_cap()
+    {
+        return 'activate_plugins';
+    }
+
+    /**
+     * Get the item type for this page
+     *
+     * @return mixed
+     */
+    public function get_item_type()
+    {
+        return null;
+    }
+
+    /**
+     * Adds additional actions.
+     *
+     * @return void
+     */
+    protected function add_additional_actions()
+    {
+    }
+
+    /**
+     * Add the page
+     */
+    public function register()
+    {
+
+        if (is_white_labeled() ) {
+            $name = white_labeled_name();
+        } else {
+            $name = 'Yardline';
+        }
+
+        $page = add_menu_page(
+            'Yardline',
+            $name,
+            $this->get_cap(),
+            'yardline',
+            [ $this, 'page' ],
+            'dashicons-chart-bar',
+            2
+        );
+
+        $sub_page = add_submenu_page(
+            'yardline',
+            _x('Score Board', 'page_title', 'yardline'),
+            _x('Score Board', 'page_title', 'yardline'),
+            $this->get_cap(),
+            'yardline',
+            [ $this, 'page' ]
+        );
+
+        $this->screen_id = $page;
+
+        /* White label compat */
+        if (is_white_labeled() ) {
+            remove_submenu_page('yardline', 'yardline');
+        }
+
+        //add_action( "load-" . $page, array( $this, 'help' ) );
+    }
+
+
+    /**
+     * Display the title and dependent action include the appropriate page content
+     */
+    public function page()
+    {
+
+        do_action("yardline/admin/{$this->get_slug()}/before");
         
 
-		?>
+        ?>
         <div class="wrap">
-			<?php
+        <?php
            
-			if ( method_exists( $this, $this->get_current_action() ) ) {
-				call_user_func( [ $this, $this->get_current_action() ] );
-			} else if ( has_action( "yardline/admin/{$this->get_slug()}/display/{$this->get_current_action()}" ) ) {
-				do_action( "yardline/admin/{$this->get_slug()}/display/{$this->get_current_action()}", $this );
-			} else {
-				call_user_func( [ $this, 'view' ] );
-			}
+        if (method_exists($this, $this->get_current_action()) ) {
+            call_user_func([ $this, $this->get_current_action() ]);
+        } else if (has_action("yardline/admin/{$this->get_slug()}/display/{$this->get_current_action()}") ) {
+            do_action("yardline/admin/{$this->get_slug()}/display/{$this->get_current_action()}", $this);
+        } else {
+            call_user_func([ $this, 'view' ]);
+        }
 
-			?>
+        ?>
         </div>
-		<?php
+        <?php
 
-		do_action( "yardline/admin/{$this->get_slug()}/after" );
-	}
+        do_action("yardline/admin/{$this->get_slug()}/after");
+    }
 
 
-	/**
-	 * The main output
-	 */
-	public function view() {
-		?>
+    /**
+     * The main output
+     */
+    public function view()
+    {
+        ?>
 
         <div class="yl-admin">
-			
+            
             <div id="score-board-page" class="score-board-page">
-			<div class="welcome-header">
-                <?php echo yardline_logo( 'white', 300, false ) ; ?>
+            <div class="welcome-header">
+                <?php echo yardline_logo('white', 300, false); ?>
             </div>
-				<?php $this->notices(); ?>
+        <?php $this->notices(); ?>
                 <hr class="wp-header-end">
                 <div class="col">
-					<div id="score-board"></div>
-				</div>
+                    <div id="score-board"></div>
+                </div>
             </div>
         </div>
-		<?php
-	}
+        <?php
+    }
 
-	public function scripts(){
-		wp_enqueue_script( self::SCRIPT_NAME, YARDLINE_ASSETS_URL . 'js/admin.js' , array(), YARDLINE_VERSION, true );
-		
-		wp_localize_script( self::SCRIPT_NAME, 'yardlineAdmin', [
+    public function scripts()
+    {
+        wp_enqueue_script(self::SCRIPT_NAME, YARDLINE_ASSETS_URL . 'js/admin.js', array(), YARDLINE_VERSION, true);
+        
+        wp_localize_script(
+            self::SCRIPT_NAME, 'yardlineAdmin', [
             'restURL' => get_rest_url(),
-			//'wpnonce' => wp_create_nonce( 'yardline_admin' ),
-			'siteTitle' => get_bloginfo( 'name' )
+            //'wpnonce' => wp_create_nonce( 'yardline_admin' ),
+            'siteTitle' => get_bloginfo('name')
             
-        ] );
-	}
+            ] 
+        );
+    }
 
 }

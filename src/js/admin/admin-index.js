@@ -1,6 +1,19 @@
-import React from 'react';
-import {render} from 'react-dom';
-import ScoreBoard from '../components/ScoreBoard';
+import React from "react";
+import { render } from "react-dom";
+import { HashRouter } from "react-router-dom";
+import ScoreBoard from "../components/ScoreBoard";
+import App from "../components/App";
 
-render( <ScoreBoard siteTitle={yardlineAdmin.siteTitle} restURL={yardlineAdmin.restURL}/>, document.querySelector('#score-board'));
+render(
+  <HashRouter>
+    <App siteTitle={yardlineAdmin.siteTitle} restURL={yardlineAdmin.restURL} />
+  </HashRouter>,
+  document.querySelector("#score-board")
+);
 
+{
+  /* <ScoreBoard
+    siteTitle={yardlineAdmin.siteTitle}
+    restURL={yardlineAdmin.restURL}
+  /> */
+}
