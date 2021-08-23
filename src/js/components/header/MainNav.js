@@ -1,18 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function MainNav() {
   return (
     <nav>
       <ul>
         <li>
-          <Link to="/">Score Board</Link>
+          <NavLink exact to="/" activeClassName="active">Score Board</NavLink>
         </li>
         <li>
-          <Link to="/settings">Settings</Link>
+          <NavLink to="/settings" activeClassName="active">Settings</NavLink>
         </li>
         <li>
-          <Link to="/addons">Addons</Link>
+          <NavLink to="/addons" activeClassName="active">Addons</NavLink>
         </li>
       </ul>
     </nav>

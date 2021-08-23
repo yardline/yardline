@@ -1,31 +1,36 @@
 <?php
 namespace Yardline;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (! defined('ABSPATH') ) {
+    exit;
 }
 
 /**
  * 
  * @package Yardline
  */
-class Analytics {
+class Analytics
+{
 
     const SCRIPT_NAME = 'yl-analytics';
 
-    public function __construct() {
-        add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend' ] );
+    public function __construct()
+    {
+        add_action('wp_enqueue_scripts', [ $this, 'enqueue_frontend' ]);
     }
 
-    public function enqueue_frontend() {
-        $hit_nonce = wp_create_nonce( 'wp_rest' );
+    public function enqueue_frontend()
+    {
+        $hit_nonce = wp_create_nonce('wp_rest');
         //($hit_nonce);
-        wp_enqueue_script( self::SCRIPT_NAME, YARDLINE_ASSETS_URL . 'js/frontend.js', array(), YARDLINE_VERSION, true );
-        wp_localize_script( self::SCRIPT_NAME, 'yardlineObject', [
+        wp_enqueue_script(self::SCRIPT_NAME, YARDLINE_ASSETS_URL . 'js/frontend.js', array(), YARDLINE_VERSION, true);
+        wp_localize_script(
+            self::SCRIPT_NAME, 'yardlineObject', [
             'restURL' => get_rest_url(),
             'wpnonce' => $hit_nonce,
             'honorDNT' => true,
             'useCookie' =>true
-        ] );
+             ] 
+        );
     }
 }

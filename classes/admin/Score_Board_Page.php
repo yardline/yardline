@@ -180,9 +180,6 @@ class Score_Board_Page extends Admin_Page
         <div class="yl-admin">
             
             <div id="score-board-page" class="score-board-page">
-            <div class="welcome-header">
-                <?php echo yardline_logo('white', 300, false); ?>
-            </div>
         <?php $this->notices(); ?>
                 <hr class="wp-header-end">
                 <div class="col">

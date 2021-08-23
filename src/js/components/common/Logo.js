@@ -1,10 +1,11 @@
 import React from 'react';
+import logo from '../../../images/yardline-logo.png'
 
 function Logo(props) {
     const {type} = props;
     return (
         <div>
-            Logo{type}
+            <img src={logo} alt="Yardline Analytics"/>
         </div>
     );
 }
